@@ -274,4 +274,7 @@
         print("Ce nom est déjà pris.")
     }
     // -----------------------------------------------------------------------------------------
-
+    
+// créer une instance de la classe GameManager
+//  afficher les règles du jeu
+// appeler func printRules pour afficher les règles du jeu (qui sera dans GameManager)

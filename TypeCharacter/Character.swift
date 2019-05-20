@@ -18,7 +18,7 @@ class Character {
         case .dwarf: // Dans le cas où c'est un nain
             life = 80
             weapon = Axe()
-        case .tank: // Dans le cas où c'est un colosse
+        case .colossus: // Dans le cas où c'est un colosse
             life = 130
             weapon = Shield()
         case .mage: // Dans le cas où c'est un mage
@@ -50,3 +50,4 @@ class Character {
         print("Vie : \(self.life)")
     }
 }
+

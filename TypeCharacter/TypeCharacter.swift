@@ -3,6 +3,7 @@
 enum TypeCharacter {
     case warrior
     case mage
-    case tank
+    case colossus
     case dwarf
 }
+
