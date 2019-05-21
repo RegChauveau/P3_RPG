@@ -1,33 +1,20 @@
-// Classe Personnage
+// Character's class defines caracs and properties of a hero.
 
 class Character {
-    var name: String
+    let name: String
     var life: Int
     var weapon: Weapons
-    var typeCharacter: TypeCharacter // Variable représentant le type de classe choisi
+    var descriptionClassCharacter: String
     
     // Initialisation de la Classe Personnage
-    init(name: String, typeCharacter: TypeCharacter) {
+    init(name: String, life: Int, weapon: Weapons, descriptionClassCharacter: String) {
         self.name = name
-        self.typeCharacter = typeCharacter
+        self.life = life
+        self.weapon = weapon
+        self.descriptionClassCharacter = descriptionClassCharacter
         
-        switch typeCharacter {
-        case .warrior: // Dans le cas où c'est un combattant
-            life = 100
-            weapon = Sword()
-        case .dwarf: // Dans le cas où c'est un nain
-            life = 80
-            weapon = Axe()
-        case .colossus: // Dans le cas où c'est un colosse
-            life = 130
-            weapon = Shield()
-        case .mage: // Dans le cas où c'est un mage
-            life = 70
-            weapon = Staff()
-        }
-    }
-    
-    
+        
+        
     func takeDamages(damages: Int) { // Fonction appelée lors de la prise de dégâts
         self.life = self.life - damages
         
@@ -51,3 +38,4 @@ class Character {
     }
 }
 
+}
