@@ -1,14 +1,14 @@
 // Character's class defines caracs and properties of a hero.
 
 class Character {
-    let name: String
+    let nameCharacter: String
     var life: Int
     var weapon: Weapons
     var descriptionClassCharacter: String
     
-    // Initialisation de la Classe Personnage
-    init(name: String, life: Int, weapon: Weapons, descriptionClassCharacter: String) {
-        self.name = name
+    // Class' init
+    init(nameCharacter: String, life: Int, weapon: Weapons, descriptionClassCharacter: String) {
+        self.nameCharacter = nameCharacter
         self.life = life
         self.weapon = weapon
         self.descriptionClassCharacter = descriptionClassCharacter
@@ -33,7 +33,7 @@ class Character {
     }
     
     func description (name: String, life: Int) { // Fonction appelée à chaque tour de jeu pour afficher quel personnage va jouer et ses points de vie restants
-        print("Nom : " + self.name)
+        print("Nom : " + self.nameCharacter)
         print("Vie : \(self.life)")
     }
 }

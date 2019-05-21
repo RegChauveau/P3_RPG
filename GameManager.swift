@@ -16,16 +16,16 @@ func composingTeam() { // Fonction appelée pour la création des 3 personnages 
             switch choiceUser {
             case "1":
                 print("Le personnage choisi est un combattant.")
-                arrayForComposingTeam.append(Warrior(life: <#Int#>))
+                arrayForComposingTeam.append(Warrior(nameCharacter: String))
             case "2":
                 print("Le personnage choisi est un nain.")
-                arrayForComposingTeam.append(Dwarf())
+                arrayForComposingTeam.append(Dwarf(nameCharacter: String))
             case "3":
                 print("Le personnage choisi est un colosse.")
-                arrayForComposingTeam.append(Colossus())
+                arrayForComposingTeam.append(Colossus(nameCharacter: String))
             case "4":
                 print("Le personnage choisi est un mage.")
-                arrayForComposingTeam.append(Mage())
+                arrayForComposingTeam.append(Mage(nameCharacter: String))
             default:
                 print("Votre équipe doit se composer de 3 soldats.")
             }

@@ -1,0 +1,13 @@
+class Team {
+    
+    
+
+        
+    
+    
+    
+    func choosingFighter() {
+        
+    }
+}
+}
