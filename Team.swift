@@ -1,6 +1,0 @@
-class Team {
-    
-    func choosingFighter() {
-        
-    }
-}
