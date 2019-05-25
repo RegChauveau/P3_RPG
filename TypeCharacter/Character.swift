@@ -39,3 +39,6 @@ class Character {
 }
 
 }
+
+// Ici tableau allCharacters
+// Ajouter propriété weapon
