@@ -1,4 +1,4 @@
-// Arme de base du nain
+// Dwarf's main weapon
 
 class Axe: Weapons {
     init() {

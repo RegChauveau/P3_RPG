@@ -1,4 +1,4 @@
-// Arme de base du Colosse (tank)
+// Colossus' main weapon
 
 class Shield: Weapons {
     init() {

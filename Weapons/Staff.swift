@@ -1,4 +1,4 @@
-// Arme de base du mage (soin)
+// Magician's main weapon
 
 class Staff: Weapons {
     init() {

@@ -1,4 +1,4 @@
-// Classe mère Armes censée gérer les dégâts
+// Mother class managing weapons
 
 class Weapons {
     var damages: Int

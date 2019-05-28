@@ -1,4 +1,4 @@
-// Arme de base du guerrier
+// Warrior's main weapon
 
 class Sword: Weapons {
     init() {

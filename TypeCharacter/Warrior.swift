@@ -2,6 +2,6 @@
 
 class Warrior: Character {
     init(nameCharacter: String) {
-        super.init(nameCharacter: nameCharacter, life: 100, weapon: Sword(), descriptionClassCharacter: "Combattant")
+        super.init(nameCharacter: nameCharacter, life: 100, weapon: Sword(), descriptionClassCharacter: "Warrior")
     }
 }
