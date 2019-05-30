@@ -1,19 +1,24 @@
 // GameManager file is the most important part of the program. It groups all the code lines which permit the program to interact with users, and it launches the game.
 
 class GameManager {
-    // propriété team tableau de teams
+    
     static let maximumCharactersPerTeam = 3
+    private var arrayTeams = [Team]()
     
     func gameLauncher() {
         print("Welcome to Virtual Fighting of WarcraftLike of the Killing Death.")
-        introductionToGame()
+        introductionToGame() // Launch the context
+        for _ in 1..<2 {
+            _ = chooseTeamName() // User choose a name for his team
+            let newTeam = Team(teamName: "")
+            newTeam.composingTeam() // Instance of Team() for a new team
+            arrayTeams.append(newTeam) // Stock the new instance in an array
+        }// boucler pour répétition du code afin de stocker dans le tableau déclaré
         // méthode qui va composer les deux équipe (nom, 3 types de heros...) stocké dans un array
         fight()
         win()
         print("Thank you guys. See you soon for an other rumble.")
-    } // boucler pour répétition du code afin de stocker dans le tableau déclaré
-
-    
+    }
     
     private func introductionToGame() { // Small function to create a context
         print("After days walking through jungle, you and your mates finally discover the pyramid that book of the ancient gods speaks so much about.")
@@ -23,8 +28,9 @@ class GameManager {
     }
     
     func fight() {
+        
         // utiliser loop while (condition vérifier qu'une des deux équipes à zero combattant)
-        // soit vérifier qu'il n'y a plus de character dans le tableau, soit 
+        // soit vérifier qu'il n'y a plus de character dans le tableau (à la mort d'un héros, l'enlever du tableau), soit le garder dans le tableau et si sélection par le user affichez un message d'erreur.
     }
     
     func win() {
@@ -75,5 +81,5 @@ class GameManager {
             }
         } while isNameChosen == false
         return nameCharacter
-}
+    }
 }

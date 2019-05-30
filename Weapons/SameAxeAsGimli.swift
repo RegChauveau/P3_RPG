@@ -1,6 +1,6 @@
 // Dwarf's main weapon
 
-class Axe: Weapons {
+class SameAxeAsGimli: Weapons {
     init() {
         super.init(damages: 15)
     }

@@ -1,6 +1,6 @@
 // Warrior's main weapon
 
-class Sword: Weapons {
+class BiggoronSword: Weapons {
     init() {
         super.init(damages: 10)
     }

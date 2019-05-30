@@ -2,6 +2,27 @@
 
 class Mage: Character {
     init(nameCharacter: String) {
-        super.init(nameCharacter: nameCharacter, life: 70, weapon: Staff(), descriptionClassCharacter: "Magician")
+        super.init(nameCharacter: nameCharacter, life: 70, maxLife: 70, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
     }
-}
+    
+    // override func attack() {}
+        // Le mage ne peut attaquer que s'il est le seul rescapé de son équipe.
+        // Vérifier que le tableau d'équipe ne contient plus que le mage.
+        // Modifier les damages de son arme.
+        // Impossibilité de se soigner soi-même.
+        // Autre possibilité : le transformer en une autre classe
+    
+    // This function checks if the magician is alive or not, if his target is alive or not, then add life points to his target.
+    func heal(target: Character){
+        if life > 0 { // If magician is alive
+            if target.life > 0 { // If his target is alive
+                target.life += weapon.damages
+            } else { // If his target is dead
+                print("Your mate is already dead dude.")
+            }
+        } else { // If magician is dead
+            print("Have you ever seen someone doing something when he is dead ?")
+        }
+    }
+    }
+
