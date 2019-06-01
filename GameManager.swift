@@ -2,7 +2,7 @@
 
 class GameManager {
     static var arrayForTeamName = [String]()
-    private var arrayTeams = [Team]()
+    var arrayTeams = [Team]()
     
     func gameLauncher() {
         print("Welcome to Virtual Fighting of WarcraftLike of the Killing Death.")
@@ -16,7 +16,7 @@ class GameManager {
             print("\(newTeam.teamName) is now complete.")
         }
         print("Both teams are ready.")
-        
+        teamsResumeBeforeFight()
         fight()
         win()
         print("Thank you guys. See you soon for an other rumble.")
@@ -30,10 +30,11 @@ class GameManager {
         print("")
     }
     
-    private func selectionedTeamResume() { // Shows team name, how many heroes are still in the array for each team before each round of the game (pool life, weapon damages...)
+    private func teamsResumeBeforeFight() { // Calls func statisticsTeam before each round of the game to show how many heroes are still in the array (type character, pool of life, weapon damages...)
         for i in 0..<arrayTeams.count {
-            print("Team Summary \(i+1)")
             let team = arrayTeams[i]
+            _ = GameManager.arrayForTeamName[i]
+            print("Team \(GameManager.arrayForTeamName[i])")
             team.statisticsTeam()
     }
     }

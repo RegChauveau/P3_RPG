@@ -71,9 +71,21 @@ class Team {
         }
     }
     
-    func statisticsTeam() {
-
+    func statisticsTeam() { // Shows team name, how many heroes are still in the array for each team before each round of the game (pool life, weapon damages...)
+        for i in 0..<arrayForComposingTeam.count {
+            let character = arrayForComposingTeam[i]
+            if character.life > 0 {
+                if character is Mage {
+                    print("\(i+1) - \(character.nameCharacter) - \(character.descriptionClassCharacter) - life: \(character.life) - heal power:  \(character.weapon.damages).")
+                } else if character is Warrior || character is Dwarf || character is Colossus {
+                    print("\(i+1) - \(character.nameCharacter) - \(character.descriptionClassCharacter) - life: \(character.life) - damages:  \(character.weapon.damages).")
+                }
+            } else {
+                print("\(i+1) - \(character.nameCharacter) is dead.")
+            }
+        }
+        print("-------------------")
+        }
     }
-    
-}
+
 
