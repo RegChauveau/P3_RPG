@@ -33,7 +33,6 @@ class GameManager {
     private func teamsResumeBeforeFight() { // Calls func statisticsTeam before each round of the game to show how many heroes are still in the array (type character, pool of life, weapon damages...)
         for i in 0..<arrayTeams.count {
             let team = arrayTeams[i]
-            _ = GameManager.arrayForTeamName[i]
             print("Team \(GameManager.arrayForTeamName[i])")
             team.statisticsTeam()
     }
