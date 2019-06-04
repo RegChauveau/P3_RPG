@@ -2,7 +2,7 @@
 
 class GameManager {
     static var arrayForTeamName = [String]()
-    var arrayTeams = [Team]()
+    static var arrayTeams = [Team]()
     
     func gameLauncher() {
         print("Welcome to Virtual Fighting of WarcraftLike of the Killing Death.")
@@ -12,10 +12,11 @@ class GameManager {
             let teamName = chooseTeamName() // User choose a name for his team
             let newTeam = Team(teamName: teamName) // obligation de passer un paramètre car pas d'init dans GM (il va chercher l'init de Team() qui a lui un init avec un paramètre. Il aurait accepté juste les () si pas d'init dans Team().
             newTeam.composingTeam() // Instance of Team() for a new team
-            arrayTeams.append(newTeam) // Stock the new instance in an array
+            GameManager.arrayTeams.append(newTeam) // Stock the new instance in an array
             print("\(newTeam.teamName) is now complete.")
         }
         print("Both teams are ready.")
+        print("")
         teamsResumeBeforeFight()
         fight()
         win()
@@ -31,44 +32,82 @@ class GameManager {
     }
     
     private func teamsResumeBeforeFight() { // Calls func statisticsTeam before each round of the game to show how many heroes are still in the array (type character, pool of life, weapon damages...)
-        for i in 0..<arrayTeams.count {
-            let team = arrayTeams[i]
-            print("Team \(GameManager.arrayForTeamName[i])")
-            team.statisticsTeam()
-    }
+        for i in 0..<GameManager.arrayTeams.count {
+            let team = GameManager.arrayTeams[i]
+            print("Team \(GameManager.arrayForTeamName[i])") // displays team name choosen by users
+            team.descriptionTeam() // Calls
+        }
     }
     
-    func fight() {
-        // S'il choisit un mage on affiche le tableau de son équipe, sinon on affiche le tableau de l'autre équipe.
+    // Launch fight, select a hero to play, select a target in the other team
+    private func fight() {
+        var choiceUser: Int = 0
+        
+        print("")
+        print("-------------------")
+        print("3...")
+        print("2...")
+        print("1...")
+        print("FIGHT !")
+        print("-------------------")
+        
+        for i in 0..<GameManager.arrayTeams.count {
+            print("Team \(GameManager.arrayForTeamName[i]), please choose the hero who's gonna play (from 1 to 3):")
+            let team = GameManager.arrayTeams[i]
+            team.descriptionTeam()
+            
+            repeat { // Select a team hero
+                if let input = readLine() {
+                    if let intInput = Int(input) {
+                        choiceUser = intInput
+                    }
+                }
+                } while choiceUser != 1 && choiceUser != 2 && choiceUser != 3
+                switch choiceUser {
+                case 1:
+                    print("\(Team.arrayforCharacterName[0]) moves forward...")
+                    
+                case 2:
+                    print("\(Team.arrayforCharacterName[1]) moves forward...")
+                    
+                case 3:
+                    print("\(Team.arrayforCharacterName[2]) moves forward...")
+                    
+                default:
+                    print("")
+            }
+            // Maintenant 2 conditions: soit c'est un mage qui est sélectionné et il faut demander quel mate il va soigner, soit c'est autre chose et il faut afficher l'équipe ennemie.
+        }
+    }
         // utiliser loop while (condition vérifier qu'une des deux équipes à zero combattant)
         // soit vérifier qu'il n'y a plus de character dans le tableau (à la mort d'un héros, l'enlever du tableau), soit le garder dans le tableau et si sélection par le user affichez un message d'erreur.
-    }
-    
-    func win() {
         
-    }
-    
-    private func chooseTeamName() -> String { // record team names and check if they are single
+        func win() {
+            
+        }
         
-        var teamName: String = ""
-        var isNameChosen: Bool = false
-        
-        print("Please choose a name for your team :")
-        repeat {
-            if let input = readLine() {
-                teamName = input
-                if GameManager.arrayForTeamName.contains(teamName) {
-                    print("Sorry but this team name already exists. Please choose another one.")
-                } else if teamName == "" {
-                    print("Make an effort lazy boy and find a real name to your team, come on !")
-                } else {
-                    isNameChosen = true
-                    GameManager.arrayForTeamName.append(teamName)
-                    print("\(teamName) is now created !")
+        func chooseTeamName() -> String { // record team names and check if they are single
+            
+            var teamName: String = ""
+            var isNameChosen: Bool = false
+            
+            print("Please choose a name for your team :")
+            repeat {
+                if let input = readLine() {
+                    teamName = input
+                    if GameManager.arrayForTeamName.contains(teamName) {
+                        print("Sorry but this team name already exists. Please choose another one.")
+                    } else if teamName == "" {
+                        print("Make an effort lazy boy and find a real name to your team, come on !")
+                    } else {
+                        isNameChosen = true
+                        GameManager.arrayForTeamName.append(teamName)
+                        print("\(teamName) is now created !")
+                    }
                 }
-            }
-        } while isNameChosen == false
-        return teamName
-    }
-
+            } while isNameChosen == false
+            return teamName
+        }
+        
 }
+

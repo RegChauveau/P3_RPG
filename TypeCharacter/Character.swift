@@ -14,10 +14,6 @@ class Character {
         self.weapon = weapon
         self.descriptionClassCharacter = descriptionClassCharacter
         
-        func createCharacter(nameCharacter: String, life: Int, weapon: Weapons, descriptionClassCharacter: String) {
-            
-        }
-        
         func attack(target: Character) { // The function checks if the character is alive or not, if the target is alive or not, manages target life by reducing with weapon damages, then says if the target is dead after the action.
             if life > 0 {
                 if target.life > 0 {
@@ -32,11 +28,6 @@ class Character {
             } else {
                 print("Have you ever seen someone doing something when he is dead ?")
             }
-        }
-        
-        func description (name: String, life: Int) { // Fonction appelée à chaque tour de jeu pour afficher quel personnage va jouer et ses points de vie restants
-            print("Nom : " + self.nameCharacter)
-            print("Vie : \(self.life)")
         }
     }
 }

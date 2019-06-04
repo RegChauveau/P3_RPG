@@ -71,7 +71,7 @@ class Team {
         }
     }
     
-    func statisticsTeam() { // Shows team name, how many heroes are still in the array for each team before each round of the game (pool life, weapon damages...)
+    func descriptionTeam() { // Shows team name, how many heroes are still in the array for each team before each round of the game (pool life, weapon damages...)
         for i in 0..<arrayForComposingTeam.count {
             let character = arrayForComposingTeam[i]
             if character.life > 0 {
