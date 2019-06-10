@@ -31,5 +31,3 @@ class Character {
         }
     }
 }
-
-// Ici tableau allCharacters

@@ -75,17 +75,21 @@ class Team {
         for i in 0..<arrayForComposingTeam.count {
             let character = arrayForComposingTeam[i]
             if character.life > 0 {
+                let characterAction: String
                 if character is Mage {
-                    print("\(i+1) - \(character.nameCharacter) - \(character.descriptionClassCharacter) - life: \(character.life) - heal power:  \(character.weapon.damages).")
+                    characterAction = "heal power"
                 } else if character is Warrior || character is Dwarf || character is Colossus {
-                    print("\(i+1) - \(character.nameCharacter) - \(character.descriptionClassCharacter) - life: \(character.life) - damages:  \(character.weapon.damages).")
+                    characterAction = "damages"
+                } else {
+                    characterAction = ""
                 }
+                print("\(i+1) - \(character.nameCharacter) - \(character.descriptionClassCharacter) - life: \(character.life) - maxLife: \(character.maxLife) - \(characterAction):\(character.weapon.damages)")
             } else {
                 print("\(i+1) - \(character.nameCharacter) is dead.")
             }
         }
         print("-------------------")
-        }
     }
+}
 
 
