@@ -90,6 +90,19 @@ class Team {
         }
         print("-------------------")
     }
+    
+    func heroDeadOrNot() -> Bool {
+        var isDead: Bool = false
+        
+        for target in arrayForComposingTeam {
+            if target.life <= 0 {
+                isDead = true
+            } else {
+                isDead = false
+            }
+        }
+        return isDead
+    }
 }
 
 

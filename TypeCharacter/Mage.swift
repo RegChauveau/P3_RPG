@@ -14,6 +14,7 @@ class Mage: Character {
     
     // This function checks if the magician is alive or not, if his target is alive or not, then add life points to his target.
     func heal(target: Character){
+        
         if life > 0 { // If magician is alive
             if target.life > 0 && target.life < maxLife { // If his target is alive
                 target.life += weapon.damages
@@ -22,7 +23,7 @@ class Mage: Character {
                     target.life = target.maxLife
                 }
             } else if target.life == target.maxLife {
-                print("Life of your mate is already at his top, choose to heal another hero.")
+                print("Life of your mate is already at his top, heal another hero.")
             } else { // If his target is dead
                 print("Your mate is already dead dude.")
             }

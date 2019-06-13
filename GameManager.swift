@@ -36,7 +36,7 @@ class GameManager {
         print("")
     }
     
-    private func teamsResumeBeforeFight() { // Calls func statisticsTeam before each round of the game to show how many heroes are still in the array (type character, pool of life, weapon damages...)
+    func teamsResumeBeforeFight() { // Calls func statisticsTeam before each round of the game to show how many heroes are still in the array (type character, pool of life, weapon damages...)
         for i in 0..<self.arrayTeams.count {
             let team = self.arrayTeams[i]
             print("Team \(self.arrayForTeamName[i])") // displays team name choosen by users
@@ -58,8 +58,7 @@ class GameManager {
         print("FIGHT !")
         print("-------------------")
         
-        // utiliser une boucle while pour vérifier que le J2 a encore des perso dans le tableau (tant qu'il reste des combattants dans le stableaux pour les deux équipes) en remplacement de la boucle for
-        
+        // utiliser une boucle while pour vérifier que le J2 a encore des perso dans le tableau (tant qu'il reste des combattants dans les tableaux pour les deux équipes) en remplacement de la boucle for
         for i in 0..<self.arrayTeams.count {
             print("Team \(self.arrayForTeamName[i]), please choose the hero who's gonna play (from 1 to 3):")
             var selectedCharacter: Character
@@ -100,16 +99,23 @@ class GameManager {
                     }
                 } while choiceUser != 1 && choiceUser != 2 && choiceUser != 3
                 magician.heal(target: arrayTeams[i].arrayForComposingTeam[choiceUser - 1])
-            } else {
-                print("Please select an opponent to attack (from 1 to 3):")
-                team.descriptionTeam()
+            } else if ((selectedCharacter as? Warrior) != nil) || ((selectedCharacter as? Dwarf) != nil) || ((selectedCharacter as? Colossus) != nil) {
+                if i == 0 {
+                    let enemyTeam = arrayTeams[i+1]
+                    chooseTargetToAttack(enemyTeam: arrayTeams[i+1], selectedHero: selectedCharacter, arrayIndex: i)
+                    if enemyTeam.heroDeadOrNot() {
+                        return
+                    }
+                } else {
+                    let enemyTeam = arrayTeams[i-1]
+                    chooseTargetToAttack(enemyTeam: arrayTeams[i-1], selectedHero: selectedCharacter, arrayIndex: i)
+                    if enemyTeam.heroDeadOrNot() {
+                        return
+                    }
+                }
             }
-            // Maintenant 2 conditions: soit c'est un mage qui est sélectionné et il faut demander quel mate il va soigner, soit c'est autre chose et il faut afficher l'équipe ennemie.
-            
         }
     }
-    // utiliser loop while (condition vérifier qu'une des deux équipes à zero combattant)
-    // soit vérifier qu'il n'y a plus de character dans le tableau (à la mort d'un héros, l'enlever du tableau), soit le garder dans le tableau et si sélection par le user affichez un message d'erreur.
     
     func win() {
         
@@ -137,4 +143,25 @@ class GameManager {
         } while isNameChosen == false
         return teamName
     }
+    
+    private func chooseTargetToAttack(enemyTeam: Team, selectedHero: Character, arrayIndex: Int) {
+        print("Player \(arrayIndex+1), choose a hero from the opposing team to attack him : ")
+        enemyTeam.descriptionTeam()
+        let opponent: Character = enemyTeam.arrayForComposingTeam[userChoice() - 1]
+        selectedHero.attack(target: opponent)
+    }
+    
+    private func userChoice() -> Int {
+        var choiceUser: Int = 0
+        
+        repeat {
+            if let input = readLine() {
+                if let intInput = Int(input) {
+                    choiceUser = intInput
+                }
+            }
+        } while choiceUser != 1 && choiceUser != 2 && choiceUser != 3
+        return choiceUser
+    }
+    
 }
