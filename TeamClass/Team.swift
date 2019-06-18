@@ -4,8 +4,9 @@ class Team {
     var arrayForComposingTeam = [Character]()
     static var arrayforCharacterName = [String]() // For checking if hero names are single
     
-    init(teamName: String) {
+    init(teamName: String, arrayForComposingTeam: [Character]) {
         self.teamName = teamName
+        self.arrayForComposingTeam = arrayForComposingTeam
     }
     
     private func descriptionCharacter() { // function here to describe caracs of each hero to the user.
@@ -83,7 +84,7 @@ class Team {
                 } else {
                     characterAction = ""
                 }
-                print("\(i+1) - \(character.nameCharacter) - \(character.descriptionClassCharacter) - life: \(character.life) - maxLife: \(character.maxLife) - \(characterAction):\(character.weapon.damages)")
+                print("\(i+1) - \(character.nameCharacter) - \(character.descriptionClassCharacter) - life: \(character.life) - maxLife: \(character.maxLife) - \(characterAction): \(character.weapon.damages)")
             } else {
                 print("\(i+1) - \(character.nameCharacter) is dead.")
             }
@@ -97,12 +98,15 @@ class Team {
         for target in arrayForComposingTeam {
             if target.life <= 0 {
                 isDead = true
-            } else {
+                print("\(target.nameCharacter) is dead.")
+                let index = arrayForComposingTeam.firstIndex(where: { $0 === target })
+                print(index!)
+                arrayForComposingTeam.remove(at: index!)
+                print(arrayForComposingTeam)
+                } else {
                 isDead = false
             }
         }
         return isDead
     }
 }
-
-

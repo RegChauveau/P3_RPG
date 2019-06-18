@@ -3,22 +3,38 @@
 class GameManager {
     var arrayForTeamName = [String]()
     var arrayTeams = [Team]()
-    var useClassProperties = true
+    var askUserForData = true
     
     func gameLauncher() {
         print("Welcome to Virtual Fighting of WarcraftLike of the Killing Death.")
         print("")
         introductionToGame() // Launch the context
-        if useClassProperties == true { // on développe le parcours utilisateur normalement et dans sa totalité
+        if askUserForData == true { // on développe le parcours utilisateur normalement et dans sa totalité
             for _ in 1..<3 {
                 let teamName = chooseTeamName() // User choose a name for his team
-                let newTeam = Team(teamName: teamName) // obligation de passer un paramètre car pas d'init dans GM (il va chercher l'init de Team() qui a lui un init avec un paramètre. Il aurait accepté juste les () si pas d'init dans Team().
+                let newTeam = Team(teamName: teamName, arrayForComposingTeam: []) // obligation de passer un paramètre car pas d'init dans GM (il va chercher l'init de Team() qui a lui un init avec un paramètre. Il aurait accepté juste les () si pas d'init dans Team().
                 newTeam.composingTeam() // Instance of Team() for a new team
                 self.arrayTeams.append(newTeam) // Stock the new instance in an array
                 print("\(newTeam.teamName) is now complete.")
             }
         } else { // on utilise des tableaux d'équipes préremplis pour gagner du temps et sauter les étapes choix du nom d'équipe, choix des noms de perso, choix des classes des persos.
-            print("")
+            let entaar = Character(nameCharacter: "Entaar", life: 100, maxLife: 100, weapon: BiggoronSword(), descriptionClassCharacter: "Warrior")
+            let buharok = Character(nameCharacter: "Buharok", life: 70, maxLife: 70, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
+            let osty = Character(nameCharacter: "Osty", life: 80, maxLife: 80, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
+            let murtonn = Character(nameCharacter: "Murtonn", life: 120, maxLife: 120, weapon: ShieldOfAzzinoth(), descriptionClassCharacter: "Colossus")
+            let krenshar = Character(nameCharacter: "Krenshar", life: 70, maxLife: 70, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
+            let naïreh = Character(nameCharacter: "Naïreh", life: 80, maxLife: 80, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
+            let team1 = Team(teamName: "Maëlstrom", arrayForComposingTeam: [entaar, buharok, osty])
+            let team2 = Team(teamName: "Le Sang de la Terre", arrayForComposingTeam: [murtonn, krenshar, naïreh])
+            arrayTeams.append(team1)
+            arrayTeams.append(team2)
+            
+            for i in 0..<self.arrayTeams.count {
+                let team = self.arrayTeams[i]
+                print("Team \(i+1)") // displays team name choosen by users
+                team.descriptionTeam()
+            }
+            
         }
         print("Both teams are ready.")
         print("")
@@ -59,9 +75,10 @@ class GameManager {
         print("-------------------")
         
         // utiliser une boucle while pour vérifier que le J2 a encore des perso dans le tableau (tant qu'il reste des combattants dans les tableaux pour les deux équipes) en remplacement de la boucle for
+        while arrayTeams[0].arrayForComposingTeam.count != 0 || arrayTeams[1].arrayForComposingTeam.count != 0 {
         for i in 0..<self.arrayTeams.count {
-            print("Team \(self.arrayForTeamName[i]), please choose the hero who's gonna play (from 1 to 3):")
             var selectedCharacter: Character
+            print("Team \(self.arrayForTeamName[i]), please choose the hero who's gonna play (from 1 to 3):")
             let team = self.arrayTeams[i]
             team.descriptionTeam()
             
@@ -72,20 +89,6 @@ class GameManager {
                     }
                 }
             } while choiceUser != 1 && choiceUser != 2 && choiceUser != 3
-            /*
-             switch choiceUser {
-             case 1:
-             print("\(Team.arrayforCharacterName[0]) moves forward...")
-             
-             case 2:
-             print("\(Team.arrayforCharacterName[1]) moves forward...")
-             
-             case 3:
-             print("\(Team.arrayforCharacterName[2]) moves forward...")
-             
-             default:
-             print("")
-             } */
             print("\(Team.arrayforCharacterName[choiceUser - 1]) moves forward...")
             selectedCharacter = arrayTeams[i].arrayForComposingTeam[choiceUser - 1]
             if let magician = selectedCharacter as? Mage {
@@ -100,21 +103,20 @@ class GameManager {
                 } while choiceUser != 1 && choiceUser != 2 && choiceUser != 3
                 magician.heal(target: arrayTeams[i].arrayForComposingTeam[choiceUser - 1])
             } else if ((selectedCharacter as? Warrior) != nil) || ((selectedCharacter as? Dwarf) != nil) || ((selectedCharacter as? Colossus) != nil) {
+                let indexOfTargetTeam: Int
                 if i == 0 {
-                    let enemyTeam = arrayTeams[i+1]
-                    chooseTargetToAttack(enemyTeam: arrayTeams[i+1], selectedHero: selectedCharacter, arrayIndex: i)
-                    if enemyTeam.heroDeadOrNot() {
-                        return
-                    }
+                    indexOfTargetTeam = 1
                 } else {
-                    let enemyTeam = arrayTeams[i-1]
-                    chooseTargetToAttack(enemyTeam: arrayTeams[i-1], selectedHero: selectedCharacter, arrayIndex: i)
-                    if enemyTeam.heroDeadOrNot() {
-                        return
-                    }
+                    indexOfTargetTeam = 0
+                }
+                let enemyTeam = arrayTeams[indexOfTargetTeam] //
+                chooseTargetToAttack(enemyTeam: arrayTeams[indexOfTargetTeam], selectedHero: selectedCharacter, arrayIndex: i)
+                if enemyTeam.heroDeadOrNot() {
+                    return
                 }
             }
         }
+    }  // repeat the loop until one of the two arrays of teams is empty (somme des pv de l'équipe est égale à 0 ?)
     }
     
     func win() {
@@ -165,3 +167,4 @@ class GameManager {
     }
     
 }
+
