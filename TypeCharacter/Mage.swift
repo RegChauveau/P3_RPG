@@ -2,7 +2,7 @@
 
 class Mage: Character {
     init(nameCharacter: String) {
-        super.init(nameCharacter: nameCharacter, life: 30, maxLife: 30, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
+        super.init(nameCharacter: nameCharacter, life: 30, maxLife: 70, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
     }
     
     // override func attack() {}
@@ -23,7 +23,7 @@ class Mage: Character {
                     target.life = target.maxLife
                 }
             } else if target.life == target.maxLife {
-                print("Life of your mate is already at his top, heal another hero.")
+                print("Life of your mate is already at his top. Next time, you gonna pay attention to what you do.")
             } else { // If his target is dead
                 print("Your mate is already dead dude.")
             }

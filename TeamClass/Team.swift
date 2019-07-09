@@ -1,12 +1,13 @@
+
+
 class Team {
-    static let maximumCharactersPerTeam = 3 // As her name says
+    static let maximumCharactersPerTeam = 3
     let teamName: String
     var arrayForComposingTeam = [Character]()
     static var arrayforCharacterName = [String]() // For checking if hero names are single
     
-    init(teamName: String, arrayForComposingTeam: [Character]) {
+    init(teamName: String) {
         self.teamName = teamName
-        self.arrayForComposingTeam = arrayForComposingTeam
     }
     
     private func descriptionCharacter() { // function here to describe caracs of each hero to the user.
@@ -92,21 +93,23 @@ class Team {
         print("-------------------")
     }
     
-    func heroDeadOrNot() -> Bool {
+    func isHeroDead(target: Character) -> Bool { // au lieu de parcourir tout le tableau pour trouver un combattant mort, plutôt vérifier si le dernier combattant a encore des PV.
         var isDead: Bool = false
         
+        // for target in arrayForComposingTeam {
         for target in arrayForComposingTeam {
             if target.life <= 0 {
                 isDead = true
                 print("\(target.nameCharacter) is dead.")
                 let index = arrayForComposingTeam.firstIndex(where: { $0 === target })
-                print(index!)
-                arrayForComposingTeam.remove(at: index!)
-                print(arrayForComposingTeam)
-                } else {
+                arrayForComposingTeam.remove(at: index!) // supprime le character du tableau
+            } else {
                 isDead = false
             }
-        }
+        // Récup du character qui vient d'être attaqué et on check s'il est en vie ou pas }
+        
+    }
         return isDead
     }
+    
 }

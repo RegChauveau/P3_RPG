@@ -2,6 +2,6 @@
 
 class Dwarf: Character {
     init(nameCharacter: String) {
-        super.init(nameCharacter: nameCharacter, life: 80, maxLife: 80, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
+        super.init(nameCharacter: nameCharacter, life: 30, maxLife: 80, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
     }
 }

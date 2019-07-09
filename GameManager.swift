@@ -1,50 +1,69 @@
-// GameManager file is the most important part of the program. It groups all the code lines which permit the program to interact with users, and it launches the game.
-
+// GameManager groups all the code lines which permit the program to interact with users, and it launches the game.
 class GameManager {
+    // Variable array stocking team names
     var arrayForTeamName = [String]()
+    // Variable array stocking both team names and characters for both teams
     var arrayTeams = [Team]()
-    var askUserForData = true
+    // Variable array stocking characters for both teams
+    var arrayForComposingTeam = [Character]()
+    // Variable managing switch to avoid or not first part of the program. If true, the user has ton give names to his team and choose characters types and names. If false, the program uses already existing arrays to facilitate tests.
+    var askUserForData = false
     
+    // It launches the game, manages the composition of teams and the fight and shows the winner
     func gameLauncher() {
         print("Welcome to Virtual Fighting of WarcraftLike of the Killing Death.")
         print("")
-        introductionToGame() // Launch the context
-        if askUserForData == true { // on développe le parcours utilisateur normalement et dans sa totalité
+        // It launches the context
+        introductionToGame()
+        // Condition if == true. Users have to execute the entire program.
+        if askUserForData == true {
             for _ in 1..<3 {
-                let teamName = chooseTeamName() // User choose a name for his team
-                let newTeam = Team(teamName: teamName, arrayForComposingTeam: []) // obligation de passer un paramètre car pas d'init dans GM (il va chercher l'init de Team() qui a lui un init avec un paramètre. Il aurait accepté juste les () si pas d'init dans Team().
-                newTeam.composingTeam() // Instance of Team() for a new team
-                self.arrayTeams.append(newTeam) // Stock the new instance in an array
+                // User choose a name for his team
+                let teamName = chooseTeamName()
+                // New instance of Team class to create new team and stock team name
+                let newTeam = Team(teamName: teamName)
+                // Calls composingTeam() to choose type and name for each of the 3 characters for both team
+                newTeam.composingTeam()
+                // Stocks the new instance in an array
+                self.arrayTeams.append(newTeam)
                 print("\(newTeam.teamName) is now complete.")
             }
-        } else { // on utilise des tableaux d'équipes préremplis pour gagner du temps et sauter les étapes choix du nom d'équipe, choix des noms de perso, choix des classes des persos.
-            let entaar = Character(nameCharacter: "Entaar", life: 100, maxLife: 100, weapon: BiggoronSword(), descriptionClassCharacter: "Warrior")
-            let buharok = Character(nameCharacter: "Buharok", life: 70, maxLife: 70, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
-            let osty = Character(nameCharacter: "Osty", life: 80, maxLife: 80, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
-            let murtonn = Character(nameCharacter: "Murtonn", life: 120, maxLife: 120, weapon: ShieldOfAzzinoth(), descriptionClassCharacter: "Colossus")
-            let krenshar = Character(nameCharacter: "Krenshar", life: 70, maxLife: 70, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
-            let naïreh = Character(nameCharacter: "Naïreh", life: 80, maxLife: 80, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
-            let team1 = Team(teamName: "Maëlstrom", arrayForComposingTeam: [entaar, buharok, osty])
-            let team2 = Team(teamName: "Le Sang de la Terre", arrayForComposingTeam: [murtonn, krenshar, naïreh])
+            // Condition if == false. The program skips the code between lines 20 to 30.
+        } else {
+            // Variables to create 6 characters
+            let entaar = Character(nameCharacter: "Entaar", life: 30, maxLife: 30, weapon: BiggoronSword(), descriptionClassCharacter: "Warrior")
+            let buharok = Character(nameCharacter: "Buharok", life: 30, maxLife: 30, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
+            let osty = Character(nameCharacter: "Osty", life: 30, maxLife: 30, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
+            let murtonn = Character(nameCharacter: "Murtonn", life: 30, maxLife: 30, weapon: ShieldOfAzzinoth(), descriptionClassCharacter: "Colossus")
+            let krenshar = Character(nameCharacter: "Krenshar", life: 30, maxLife: 30, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
+            let naïreh = Character(nameCharacter: "Naïreh", life: 30, maxLife: 30, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
+            // Variables to create 2 teams with name for each
+            let teamName1 = "Maëstrom"
+            let teamName2 = "Le Sang de la Terre"
+            arrayForTeamName.append(teamName1)
+            arrayForTeamName.append(teamName2)
+            // Variables to stock the two new instances of Team
+            let team1 = Team(teamName: teamName1)
+            let team2 = Team(teamName: teamName2)
+            // The 6 characters are added to team arrays
+            team1.arrayForComposingTeam.append(Warrior(nameCharacter: "Entaar"))
+            team1.arrayForComposingTeam.append(Mage(nameCharacter: "Buharok"))
+            team1.arrayForComposingTeam.append(Dwarf(nameCharacter: "Osty"))
+            team2.arrayForComposingTeam.append(Colossus(nameCharacter: "Murtonn"))
+            team2.arrayForComposingTeam.append(Dwarf(nameCharacter: "Naïreh"))
+            team2.arrayForComposingTeam.append(Mage(nameCharacter: "Krenshar"))
+            
             arrayTeams.append(team1)
             arrayTeams.append(team2)
-            
-            for i in 0..<self.arrayTeams.count {
-                let team = self.arrayTeams[i]
-                print("Team \(i+1)") // displays team name choosen by users
-                team.descriptionTeam()
-            }
-            
         }
         print("Both teams are ready.")
         print("")
         teamsResumeBeforeFight()
         fight()
-        win()
-        print("Thank you guys. See you soon for an other rumble.")
     }
     
-    private func introductionToGame() { // Small function to create a context
+    // Method to create a context
+    private func introductionToGame() {
         print("After days walking through jungle, you and your mates finally discover the pyramid that book of the ancient gods speaks so much about.")
         print("By entering, you can note that air is pretty wet and full of dust. You can see as well as through a shovel. Nobody comes here for centuries.")
         print("You solve all the puzzles. You’re still alive after all the traps. Fabled golden relics of the ancient gods are just right in front of you.")
@@ -52,92 +71,125 @@ class GameManager {
         print("")
     }
     
-    func teamsResumeBeforeFight() { // Calls func statisticsTeam before each round of the game to show how many heroes are still in the array (type character, pool of life, weapon damages...)
+    // Calls func statisticsTeam before each round of the game to show how many heroes are still in the array (type character, pool of life, weapon damages...)
+    func teamsResumeBeforeFight() {
         for i in 0..<self.arrayTeams.count {
             let team = self.arrayTeams[i]
-            print("Team \(self.arrayForTeamName[i])") // displays team name choosen by users
+            // Displays team name choosen by users
+            print("Team \(self.arrayForTeamName[i])")
             team.descriptionTeam()
         }
     }
     
-    //MARK: méthode du combat
+    //MARK: Fighting methods
     
-    // Launch fight, select a hero to play, select a target in the other team
+    // It launches the fight and regroups conditions to stop or continue the execution of the program
     private func fight() {
-        var choiceUser: Int = 0
+        // Variable for recording how many turns in the game
+        var round = 0
         
-        print("")
-        print("-------------------")
-        print("3...")
-        print("2...")
-        print("1...")
-        print("FIGHT !")
-        print("-------------------")
+        print("""
+        ------------------
+        3...
+        2...
+        1...
+        FIGHT !
+        -------------------
+        """)
         
-        // utiliser une boucle while pour vérifier que le J2 a encore des perso dans le tableau (tant qu'il reste des combattants dans les tableaux pour les deux équipes) en remplacement de la boucle for
-        while arrayTeams[0].arrayForComposingTeam.count != 0 || arrayTeams[1].arrayForComposingTeam.count != 0 {
-        for i in 0..<self.arrayTeams.count {
-            var selectedCharacter: Character
-            print("Team \(self.arrayForTeamName[i]), please choose the hero who's gonna play (from 1 to 3):")
-            let team = self.arrayTeams[i]
-            team.descriptionTeam()
+        // Condition to stop the fight
+        while !arrayTeams[0].arrayForComposingTeam.isEmpty && !arrayTeams[1].arrayForComposingTeam.isEmpty {
             
-            repeat { // Select a team hero
-                if let input = readLine() {
-                    if let intInput = Int(input) {
-                        choiceUser = intInput
-                    }
-                }
-            } while choiceUser != 1 && choiceUser != 2 && choiceUser != 3
-            print("\(Team.arrayforCharacterName[choiceUser - 1]) moves forward...")
-            selectedCharacter = arrayTeams[i].arrayForComposingTeam[choiceUser - 1]
-            if let magician = selectedCharacter as? Mage {
-                print("Please select the hero you gonna heal (from 1 to 3):")
-                team.descriptionTeam()
-                repeat {
-                    if let input = readLine() {
-                        if let intInput = Int(input) {
-                            choiceUser = intInput
-                        }
-                    }
-                } while choiceUser != 1 && choiceUser != 2 && choiceUser != 3
-                magician.heal(target: arrayTeams[i].arrayForComposingTeam[choiceUser - 1])
-            } else if ((selectedCharacter as? Warrior) != nil) || ((selectedCharacter as? Dwarf) != nil) || ((selectedCharacter as? Colossus) != nil) {
-                let indexOfTargetTeam: Int
-                if i == 0 {
-                    indexOfTargetTeam = 1
+            // Add 1 to round when Player 1 is playing
+            print("Round : \(round)")
+            round += 1
+            
+            for i in 0..<arrayTeams.count {
+                
+                // Checks if index1 of arrayTeams is empty. If true, the fight stops; if false, the fight continues
+                if arrayTeams[1].arrayForComposingTeam.isEmpty {
+                    print("congrats team 1")
+                    
+                    // Checks if index0 of arrayTeams is empty. If true, the fight stops; if false, the fight continues
+                } else if arrayTeams[0].arrayForComposingTeam.isEmpty {
+                    print("congrats team 2")
+                    
                 } else {
-                    indexOfTargetTeam = 0
-                }
-                let enemyTeam = arrayTeams[indexOfTargetTeam] //
-                chooseTargetToAttack(enemyTeam: arrayTeams[indexOfTargetTeam], selectedHero: selectedCharacter, arrayIndex: i)
-                if enemyTeam.heroDeadOrNot() {
-                    return
+                    
+                    print("Team \(self.arrayForTeamName[i]), please choose the hero you gonna play with (from 1 to 3):")
+                    let team = self.arrayTeams[i]
+                    team.descriptionTeam()
+                    
+                    // Call of method fightConditions
+                    fightConditions(indexOfPlayingTeam: i)
+                    
+                    
                 }
             }
         }
-    }  // repeat the loop until one of the two arrays of teams is empty (somme des pv de l'équipe est égale à 0 ?)
     }
     
-    func win() {
+    // Method to select a fighter and a target. It also manages differences between damagers and healers, and removes characters when they die.
+    func fightConditions(indexOfPlayingTeam: Int) {
+        // Variable for recording the input of user
+        let choiceUser = userChoice()
+        let team = self.arrayTeams[indexOfPlayingTeam]
+        // Variable to stock the hero who is gonna play
+        var myAttacker: Character
         
+        // Displays the name of the attacker
+        myAttacker = arrayTeams[indexOfPlayingTeam].arrayForComposingTeam[choiceUser - 1]
+        print("\(myAttacker.nameCharacter) moves forward...")
+        
+        // Condition if selected attacker is a magician
+        if let magician = myAttacker as? Mage {
+            print("Please select the hero you gonna heal (from 1 to 3):")
+            team.descriptionTeam()
+            // Choosing healer's target
+            magician.heal(target: arrayTeams[indexOfPlayingTeam].arrayForComposingTeam[choiceUser - 1])
+            
+            // Condition if selected attacker is a damager
+        } else if ((myAttacker as? Warrior) != nil) || ((myAttacker as? Dwarf) != nil) || ((myAttacker as? Colossus) != nil) {
+            // Variable to stock the index of defending team
+            let indexOfTargetTeam: Int
+            // Switch between both columns of arrayTeams to determine the index of attacking team
+            if indexOfPlayingTeam == 0 {
+                indexOfTargetTeam = 1
+            } else {
+                indexOfTargetTeam = 0
+            }
+            
+            let enemyTeam = arrayTeams[indexOfTargetTeam]
+            // Calls the method to choose a target to attack
+            chooseTargetToAttack(enemyTeam: arrayTeams[indexOfTargetTeam], myAttacker: myAttacker, arrayIndex: indexOfPlayingTeam)
+            // Calls the method to check if the target is dead
+            let result = enemyTeam.isHeroDead(target: arrayTeams[indexOfTargetTeam].arrayForComposingTeam[indexOfPlayingTeam])
+            print("\([indexOfTargetTeam])")
+            print("\(result)")
+        }
     }
     
-    func chooseTeamName() -> String { // record team names and check if they are single
-        
+    // It records team names and check if they are single or not
+    func chooseTeamName() -> String {
         var teamName: String = ""
+        // Bool variable to check if chosen team name is unic or not
         var isNameChosen: Bool = false
         
         print("Please choose a name for your team :")
         repeat {
+            // Record user's input
             if let input = readLine() {
                 teamName = input
+                // Error message if the input is already existing
                 if self.arrayForTeamName.contains(teamName) {
                     print("Sorry but this team name already exists. Please choose another one.")
+                    // Error message if there is no input
                 } else if teamName == "" {
                     print("Make an effort lazy boy and find a real name to your team, come on !")
+                    // Message if all the process is good
                 } else {
                     isNameChosen = true
+                    // Add new team name to array
                     self.arrayForTeamName.append(teamName)
                     print("\(teamName) is now created !")
                 }
@@ -146,20 +198,24 @@ class GameManager {
         return teamName
     }
     
-    private func chooseTargetToAttack(enemyTeam: Team, selectedHero: Character, arrayIndex: Int) {
+    // Method to select a target to attack
+    private func chooseTargetToAttack(enemyTeam: Team, myAttacker: Character, arrayIndex: Int) {
         print("Player \(arrayIndex+1), choose a hero from the opposing team to attack him : ")
         enemyTeam.descriptionTeam()
         let opponent: Character = enemyTeam.arrayForComposingTeam[userChoice() - 1]
-        selectedHero.attack(target: opponent)
+        myAttacker.attack(target: opponent)
     }
     
-    private func userChoice() -> Int {
+    // Method to record inputs of users and decrease the number of code lines in other methods
+    private func userChoice() -> Int { // passer en paramètre la taille du tableau via un entier puis l'utiliser dans le while
         var choiceUser: Int = 0
         
         repeat {
             if let input = readLine() {
                 if let intInput = Int(input) {
                     choiceUser = intInput
+                } else {
+                    print("Please enter a number between 1 and 3")
                 }
             }
         } while choiceUser != 1 && choiceUser != 2 && choiceUser != 3
