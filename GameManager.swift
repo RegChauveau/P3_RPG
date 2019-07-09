@@ -211,7 +211,9 @@ class GameManager {
         var choiceUser: Int = 0
         
         repeat {
+            // Record user's input
             if let input = readLine() {
+                // Unwrap it
                 if let intInput = Int(input) {
                     choiceUser = intInput
                 } else {
