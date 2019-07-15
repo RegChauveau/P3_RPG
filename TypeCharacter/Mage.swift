@@ -2,7 +2,7 @@
 
 class Mage: Character {
     init(nameCharacter: String) {
-        super.init(nameCharacter: nameCharacter, life: 30, maxLife: 70, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
+        super.init(nameCharacter: nameCharacter, life: 30, maxLife: 70, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician", typeNumber: 4)
     }
     
     // override func attack() {}

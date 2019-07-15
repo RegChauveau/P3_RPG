@@ -58,6 +58,7 @@ class Team {
             var choiceUser: Int = 0
             // Constant for choosing the name of the hero
             let characterName = chooseCharacterName()
+
             
             descriptionCharacter()
             repeat {
