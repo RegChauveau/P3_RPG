@@ -108,7 +108,7 @@ class GameManager {
                 
                 // Checks if index1 of arrayTeams is empty. If true, the fight stops; if false, the fight continues
                 if arrayTeams[1].arrayForComposingTeam.isEmpty {
-                    print("congrats team 1")
+                    print("Congratulations \(arrayForTeamName[0]), you win the fight in \(round) rounds.")
                     
                 } else {
                     
@@ -119,7 +119,10 @@ class GameManager {
                     // Call of method fightConditions
                     fightConditions(indexOfPlayingTeam: i)
                     
-                    
+                    // Checks if index0 of arrayTeams is empty. If true, the fight stops; if false, the fight continues
+                    if arrayTeams[0].arrayForComposingTeam.isEmpty {
+                        print("Congratulations \(arrayForTeamName[1]), you win the fight in \(round) rounds.")
+                    }
                 }
             }
         }
@@ -170,11 +173,7 @@ class GameManager {
             // Calls the method to check if the target is dead
             let result = enemyTeam.isHeroDead(target: arrayTeams[indexOfTargetTeam].arrayForComposingTeam[indexOfTargetCharacter])
             
-            // Checks if index0 of arrayTeams is empty. If true, the fight stops; if false, the fight continues
-        if arrayTeams[0].arrayForComposingTeam.isEmpty {
-            print("congrats team 2")
         }
-    }
     }
     
     // It records team names and check if they are single or not
@@ -214,6 +213,10 @@ class GameManager {
         let opponent: Character = enemyTeam.arrayForComposingTeam[choiceUser - 1]
         myAttacker.attack(target: opponent)
         return (choiceUser - 1)
+    }
+    
+    private func showTheWinner() {
+        
     }
     
     // Method to record inputs of users and decrease the number of code lines in other methods
