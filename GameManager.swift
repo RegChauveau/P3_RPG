@@ -31,12 +31,12 @@ class GameManager {
             // Condition if == false. The program skips the code between lines 20 to 30.
         } else {
             // Variables to create 6 characters
-            let entaar = Character(nameCharacter: "Entaar", life: 30, maxLife: 30, weapon: BiggoronSword(), descriptionClassCharacter: "Warrior", typeNumber: 1)
-            let buharok = Character(nameCharacter: "Buharok", life: 30, maxLife: 30, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician", typeNumber: 4)
-            let osty = Character(nameCharacter: "Osty", life: 30, maxLife: 30, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf", typeNumber: 2)
-            let murtonn = Character(nameCharacter: "Murtonn", life: 30, maxLife: 30, weapon: ShieldOfAzzinoth(), descriptionClassCharacter: "Colossus", typeNumber: 3)
-            let krenshar = Character(nameCharacter: "Krenshar", life: 30, maxLife: 30, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician", typeNumber: 4)
-            let naïreh = Character(nameCharacter: "Naïreh", life: 30, maxLife: 30, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf", typeNumber: 2)
+            let entaar = Character(nameCharacter: "Entaar", life: 30, maxLife: 30, weapon: BiggoronSword(), descriptionClassCharacter: "Warrior")
+            let buharok = Character(nameCharacter: "Buharok", life: 30, maxLife: 30, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
+            let osty = Character(nameCharacter: "Osty", life: 30, maxLife: 30, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
+            let murtonn = Character(nameCharacter: "Murtonn", life: 30, maxLife: 30, weapon: ShieldOfAzzinoth(), descriptionClassCharacter: "Colossus")
+            let krenshar = Character(nameCharacter: "Krenshar", life: 30, maxLife: 30, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
+            let naïreh = Character(nameCharacter: "Naïreh", life: 30, maxLife: 30, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
             // Variables to create 2 teams with name for each
             let teamName1 = "Maëstrom"
             let teamName2 = "Le Sang de la Terre"
@@ -131,7 +131,7 @@ class GameManager {
     // Method to select a fighter and a target. It also manages differences between damagers and healers, and removes characters when they die.
     func fightConditions(indexOfPlayingTeam: Int) {
         // Variables for recording the input of user
-        let choiceUser = userChoice()
+        let choiceUser = userChoice(dynamicSizeOfArray: arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.count)
         let team = self.arrayTeams[indexOfPlayingTeam]
         // Variable to stock the hero who is gonna play
         var myAttacker: Character
@@ -145,14 +145,12 @@ class GameManager {
             // Checks if the magician is the only survivor of his team
             if arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.count == 1 && ((myAttacker as? Mage) != nil) {
                 print("\(arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.count)")
-                if myAttacker.typeNumber == 4 {
-                    myAttacker.typeNumber = 1
-                    print("ABRACADABRA ! If last hero in the team is a magician, it becomes a warrior.")
-                }
+                
+                
             }
             print("Please select the hero you gonna heal (from 1 to 3):")
             team.descriptionTeam()
-            let inputUser = userChoice()
+            let inputUser = userChoice(dynamicSizeOfArray: arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.count)
             // Choosing healer's target
             magician.heal(target: arrayTeams[indexOfPlayingTeam].arrayForComposingTeam[inputUser - 1])
             
@@ -172,7 +170,6 @@ class GameManager {
             let indexOfTargetCharacter = chooseTargetToAttack(enemyTeam: arrayTeams[indexOfTargetTeam], myAttacker: myAttacker, arrayIndex: indexOfPlayingTeam)
             // Calls the method to check if the target is dead
             let result = enemyTeam.isHeroDead(target: arrayTeams[indexOfTargetTeam].arrayForComposingTeam[indexOfTargetCharacter])
-            
         }
     }
     
@@ -209,18 +206,16 @@ class GameManager {
     private func chooseTargetToAttack(enemyTeam: Team, myAttacker: Character, arrayIndex: Int) -> Int {
         print("Player \(arrayIndex+1), choose a hero from the opposing team to attack him : ")
         enemyTeam.descriptionTeam()
-        let choiceUser = userChoice()
+        let choiceUser = userChoice(dynamicSizeOfArray: enemyTeam.arrayForComposingTeam.count)
         let opponent: Character = enemyTeam.arrayForComposingTeam[choiceUser - 1]
         myAttacker.attack(target: opponent)
         return (choiceUser - 1)
     }
     
-    private func showTheWinner() {
-        
-    }
+
     
     // Method to record inputs of users and decrease the number of code lines in other methods
-    private func userChoice() -> Int { // passer en paramètre la taille du tableau via un entier puis l'utiliser dans le while
+    private func userChoice(dynamicSizeOfArray: Int) -> Int {
         var choiceUser: Int = 0
         
         repeat {
@@ -229,11 +224,16 @@ class GameManager {
                 // Unwrap it
                 if let intInput = Int(input) {
                     choiceUser = intInput
+                    // If the input is not inside a range between 0 and the number of columns in team array, it displays the print in line 230
+                    if choiceUser <= 0 || choiceUser >= dynamicSizeOfArray {
+                        print("Please enter a number between 1 and \(dynamicSizeOfArray).")
+                    }
                 } else {
-                    print("Please enter a number between 1 and 3")
+                    // If the input is not an Int
+                    print("Please enter a number.")
                 }
             }
-        } while choiceUser != 1 && choiceUser != 2 && choiceUser != 3
+        } while choiceUser > dynamicSizeOfArray
         return choiceUser
     }
     

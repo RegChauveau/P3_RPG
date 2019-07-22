@@ -7,15 +7,13 @@ class Character {
     let maxLife: Int
     var weapon: Weapons
     var descriptionClassCharacter: String
-    var typeNumber: Int
     
-    init(nameCharacter: String, life: Int, maxLife: Int, weapon: Weapons, descriptionClassCharacter: String, typeNumber: Int) {
+    init(nameCharacter: String, life: Int, maxLife: Int, weapon: Weapons, descriptionClassCharacter: String) {
         self.nameCharacter = nameCharacter
         self.life = life
         self.maxLife = maxLife
         self.weapon = weapon
         self.descriptionClassCharacter = descriptionClassCharacter
-        self.typeNumber = typeNumber
     }
     
     // Method checks if the character is alive or not, if the target is alive or not, and reduces target life with weapon damages
