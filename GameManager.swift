@@ -31,24 +31,24 @@ class GameManager {
             // Condition if == false. The program skips the code between lines 20 to 30.
         } else {
             // Variables to create 6 characters
-            let entaar = Character(nameCharacter: "Entaar", life: 30, maxLife: 30, weapon: BiggoronSword(), descriptionClassCharacter: "Warrior")
+            let vizinoob = Character(nameCharacter: "Vizinoob", life: 30, maxLife: 30, weapon: BiggoronSword(), descriptionClassCharacter: "Warrior")
             let buharok = Character(nameCharacter: "Buharok", life: 30, maxLife: 30, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
-            let osty = Character(nameCharacter: "Osty", life: 30, maxLife: 30, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
+            let osgoroth = Character(nameCharacter: "Osgoroth", life: 30, maxLife: 30, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
             let murtonn = Character(nameCharacter: "Murtonn", life: 30, maxLife: 30, weapon: ShieldOfAzzinoth(), descriptionClassCharacter: "Colossus")
             let krenshar = Character(nameCharacter: "Krenshar", life: 30, maxLife: 30, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
             let naïreh = Character(nameCharacter: "Naïreh", life: 30, maxLife: 30, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
             // Variables to create 2 teams with name for each
             let teamName1 = "Maëstrom"
-            let teamName2 = "Le Sang de la Terre"
+            let teamName2 = "Nephilïm"
             arrayForTeamName.append(teamName1)
             arrayForTeamName.append(teamName2)
             // Variables to stock the two new instances of Team
             let team1 = Team(teamName: teamName1)
             let team2 = Team(teamName: teamName2)
             // The 6 characters are added to team arrays
-            team1.arrayForComposingTeam.append(Warrior(nameCharacter: "Entaar"))
+            team1.arrayForComposingTeam.append(Warrior(nameCharacter: "Vizinoob"))
             team1.arrayForComposingTeam.append(Mage(nameCharacter: "Buharok"))
-            team1.arrayForComposingTeam.append(Dwarf(nameCharacter: "Osty"))
+            team1.arrayForComposingTeam.append(Dwarf(nameCharacter: "Osgoroth"))
             team2.arrayForComposingTeam.append(Colossus(nameCharacter: "Murtonn"))
             team2.arrayForComposingTeam.append(Dwarf(nameCharacter: "Naïreh"))
             team2.arrayForComposingTeam.append(Mage(nameCharacter: "Krenshar"))
@@ -144,9 +144,16 @@ class GameManager {
         if let magician = myAttacker as? Mage {
             // Checks if the magician is the only survivor of his team
             if arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.count == 1 && ((myAttacker as? Mage) != nil) {
-                print("\(arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.count)")
-                
-                
+                // Temporary variables to stock magician name and life
+                let subLife = myAttacker.life
+                let subName = myAttacker.nameCharacter
+                // Create a new warrior with life and name of the magician
+                let warriorSub = Warrior(nameCharacter: subName)
+                warriorSub.life = subLife
+                // Adding the new warrior to team
+                arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.append(warriorSub)
+                // Remove magician from the team
+                arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.remove(at: 0)
             }
             print("Please select the hero you gonna heal (from 1 to 3):")
             team.descriptionTeam()
@@ -169,7 +176,7 @@ class GameManager {
             // Calls the method to choose a target to attack
             let indexOfTargetCharacter = chooseTargetToAttack(enemyTeam: arrayTeams[indexOfTargetTeam], myAttacker: myAttacker, arrayIndex: indexOfPlayingTeam)
             // Calls the method to check if the target is dead
-            let result = enemyTeam.isHeroDead(target: arrayTeams[indexOfTargetTeam].arrayForComposingTeam[indexOfTargetCharacter])
+            _ = enemyTeam.isHeroDead(target: arrayTeams[indexOfTargetTeam].arrayForComposingTeam[indexOfTargetCharacter])
         }
     }
     
@@ -211,8 +218,20 @@ class GameManager {
         myAttacker.attack(target: opponent)
         return (choiceUser - 1)
     }
-    
 
+    // Method to sub a magician with a warrior when the magician is alone in his team
+    private func substituteMagicianToWarrior() {
+        var myAttacker : Character
+        let warriorSub = Warrior(nameCharacter: "")
+        
+        
+        print("ABRACADABRA ! If last hero in the team is a magician, it becomes a warrior.")
+        // récupérer le nom du personnage et l'insérer dans la nouvelle instance de warrior
+        // créer une nouvelle instance de warrior
+        // stocker nom et vie dans deux variable temporaires avant suppression
+        // supprimer du tableau le dernier héros à l'index 0
+        // insérer l'instance de warrior dans le tableau
+    }
     
     // Method to record inputs of users and decrease the number of code lines in other methods
     private func userChoice(dynamicSizeOfArray: Int) -> Int {
@@ -224,8 +243,8 @@ class GameManager {
                 // Unwrap it
                 if let intInput = Int(input) {
                     choiceUser = intInput
-                    // If the input is not inside a range between 0 and the number of columns in team array, it displays the print in line 230
-                    if choiceUser <= 0 || choiceUser >= dynamicSizeOfArray {
+                    // If the input is not inside a range between 0 and the number of columns in team array, it displays the print in line 229
+                    if choiceUser < 1 || choiceUser > dynamicSizeOfArray {
                         print("Please enter a number between 1 and \(dynamicSizeOfArray).")
                     }
                 } else {
@@ -233,6 +252,7 @@ class GameManager {
                     print("Please enter a number.")
                 }
             }
+            // It loops if the input is superior than the number of columns of team array
         } while choiceUser > dynamicSizeOfArray
         return choiceUser
     }
