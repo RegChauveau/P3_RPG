@@ -7,7 +7,7 @@ class GameManager {
     // Variable array stocking characters for both teams
     var arrayForComposingTeam = [Character]()
     // Variable managing switch to avoid or not first part of the program. If true, the user has ton give names to his team and choose characters types and names. If false, the program uses already existing arrays to facilitate tests.
-    var askUserForData = false
+    var askUserForData = true
     
     // It launches the game, manages the composition of teams and the fight and shows the winner
     func gameLauncher() {
@@ -15,7 +15,7 @@ class GameManager {
         print("")
         // It launches the context
         introductionToGame()
-        // Condition if == true. Users have to execute the entire program.
+        // Condition if == true. Users have to execute the entire program (they have to give teams their names, choose types of heroes and give their names...).
         if askUserForData == true {
             for _ in 1..<3 {
                 // User choose a name for his team
@@ -28,38 +28,43 @@ class GameManager {
                 self.arrayTeams.append(newTeam)
                 print("\(newTeam.teamName) is now complete.")
             }
-            // Condition if == false. The program skips the code between lines 20 to 30.
+            // Condition if == false. The program skips the code between lines 20 to 30, and calls useStaticDatas.
         } else {
-            // Variables to create 6 characters
-            let vizinoob = Character(nameCharacter: "Vizinoob", life: 30, maxLife: 30, weapon: BiggoronSword(), descriptionClassCharacter: "Warrior")
-            let buharok = Character(nameCharacter: "Buharok", life: 30, maxLife: 30, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
-            let osgoroth = Character(nameCharacter: "Osgoroth", life: 30, maxLife: 30, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
-            let murtonn = Character(nameCharacter: "Murtonn", life: 30, maxLife: 30, weapon: ShieldOfAzzinoth(), descriptionClassCharacter: "Colossus")
-            let krenshar = Character(nameCharacter: "Krenshar", life: 30, maxLife: 30, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
-            let naïreh = Character(nameCharacter: "Naïreh", life: 30, maxLife: 30, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
-            // Variables to create 2 teams with name for each
-            let teamName1 = "Maëstrom"
-            let teamName2 = "Nephilïm"
-            arrayForTeamName.append(teamName1)
-            arrayForTeamName.append(teamName2)
-            // Variables to stock the two new instances of Team
-            let team1 = Team(teamName: teamName1)
-            let team2 = Team(teamName: teamName2)
-            // The 6 characters are added to team arrays
-            team1.arrayForComposingTeam.append(Warrior(nameCharacter: "Vizinoob"))
-            team1.arrayForComposingTeam.append(Mage(nameCharacter: "Buharok"))
-            team1.arrayForComposingTeam.append(Dwarf(nameCharacter: "Osgoroth"))
-            team2.arrayForComposingTeam.append(Colossus(nameCharacter: "Murtonn"))
-            team2.arrayForComposingTeam.append(Dwarf(nameCharacter: "Naïreh"))
-            team2.arrayForComposingTeam.append(Mage(nameCharacter: "Krenshar"))
-            
-            arrayTeams.append(team1)
-            arrayTeams.append(team2)
+            useStaticDatas()
         }
         print("Both teams are ready.")
         print("")
         teamsResumeBeforeFight()
         fight()
+    }
+    
+    //
+    private func useStaticDatas() {
+        // Variables to create 6 characters
+        let vizinoob = Character(nameCharacter: "Vizinoob", life: 30, maxLife: 30, weapon: BiggoronSword(), descriptionClassCharacter: "Warrior")
+        let buharok = Character(nameCharacter: "Buharok", life: 30, maxLife: 30, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
+        let osgoroth = Character(nameCharacter: "Osgoroth", life: 30, maxLife: 30, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
+        let murtonn = Character(nameCharacter: "Murtonn", life: 30, maxLife: 30, weapon: ShieldOfAzzinoth(), descriptionClassCharacter: "Colossus")
+        let krenshar = Character(nameCharacter: "Krenshar", life: 30, maxLife: 30, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
+        let naïreh = Character(nameCharacter: "Naïreh", life: 30, maxLife: 30, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
+        // Variables to create 2 teams with name for each
+        let firstTeamName = "Maëstrom"
+        let secondTeamName = "Nephilïm"
+        arrayForTeamName.append(firstTeamName)
+        arrayForTeamName.append(secondTeamName)
+        // Variables to stock the two new instances of Team
+        let team1 = Team(teamName: firstTeamName)
+        let team2 = Team(teamName: secondTeamName)
+        // The 6 characters are added to team arrays
+        team1.arrayForComposingTeam.append(Warrior(nameCharacter: "Vizinoob"))
+        team1.arrayForComposingTeam.append(Mage(nameCharacter: "Buharok"))
+        team1.arrayForComposingTeam.append(Dwarf(nameCharacter: "Osgoroth"))
+        team2.arrayForComposingTeam.append(Colossus(nameCharacter: "Murtonn"))
+        team2.arrayForComposingTeam.append(Dwarf(nameCharacter: "Naïreh"))
+        team2.arrayForComposingTeam.append(Mage(nameCharacter: "Krenshar"))
+        
+        arrayTeams.append(team1)
+        arrayTeams.append(team2)
     }
     
     // Method to create a context
@@ -143,41 +148,38 @@ class GameManager {
         // Condition if selected attacker is a magician
         if let magician = myAttacker as? Mage {
             // Checks if the magician is the only survivor of his team
-            if arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.count == 1 && ((myAttacker as? Mage) != nil) {
-                // Temporary variables to stock magician name and life
-                let subLife = myAttacker.life
-                let subName = myAttacker.nameCharacter
-                // Create a new warrior with life and name of the magician
-                let warriorSub = Warrior(nameCharacter: subName)
-                warriorSub.life = subLife
-                // Adding the new warrior to team
-                arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.append(warriorSub)
-                // Remove magician from the team
-                arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.remove(at: 0)
-            }
+            if arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.count == 1 {
+                // Calling substitution method to change the magician to a warrior
+                substituteMagicianToWarrior(myAttacker: myAttacker, indexOfPlayingTeam: indexOfPlayingTeam)
+                // Calling attack method
+                callAttackMethod(myAttacker: myAttacker, indexOfPlayingTeam: indexOfPlayingTeam)
+            } else {
             print("Please select the hero you gonna heal (from 1 to 3):")
             team.descriptionTeam()
             let inputUser = userChoice(dynamicSizeOfArray: arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.count)
             // Choosing healer's target
             magician.heal(target: arrayTeams[indexOfPlayingTeam].arrayForComposingTeam[inputUser - 1])
-            
-            // Condition if selected attacker is a damager
-        } else if (((myAttacker as? Warrior) != nil) || ((myAttacker as? Dwarf) != nil) || ((myAttacker as? Colossus) != nil)) || (arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.count == 1 && ((myAttacker as? Mage) != nil)) {
-            // Variable to stock the index of defending team
-            let indexOfTargetTeam: Int
-            // Switch between both columns of arrayTeams to determine the index of attacking team
-            if indexOfPlayingTeam == 0 {
-                indexOfTargetTeam = 1
-            } else {
-                indexOfTargetTeam = 0
             }
-            
-            let enemyTeam = arrayTeams[indexOfTargetTeam]
-            // Calls the method to choose a target to attack
-            let indexOfTargetCharacter = chooseTargetToAttack(enemyTeam: arrayTeams[indexOfTargetTeam], myAttacker: myAttacker, arrayIndex: indexOfPlayingTeam)
-            // Calls the method to check if the target is dead
-            _ = enemyTeam.isHeroDead(target: arrayTeams[indexOfTargetTeam].arrayForComposingTeam[indexOfTargetCharacter])
+            // Condition if selected attacker is a damager
+        } else if (((myAttacker as? Warrior) != nil) || ((myAttacker as? Dwarf) != nil) || ((myAttacker as? Colossus) != nil)) {
+            callAttackMethod(myAttacker: myAttacker, indexOfPlayingTeam: indexOfPlayingTeam)
         }
+    }
+    
+    // Method to sub a magician with a warrior when the magician is alone in his team
+    private func substituteMagicianToWarrior(myAttacker: Character, indexOfPlayingTeam: Int) {
+        // Temporary variables to stock magician name and life
+        let subtituteLife = myAttacker.life
+        let subtituteName = myAttacker.nameCharacter
+        // Create a new warrior with life and name of the magician
+        let warriorSub = Warrior(nameCharacter: subtituteName)
+        warriorSub.life = subtituteLife
+        myAttacker.weapon.damages = 10
+        // Adding the new warrior to team
+        arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.append(warriorSub)
+        // Remove magician from the team
+        arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.remove(at: 0)
+        print("ABRACADABRA ! If last hero in the team is a magician, it becomes a warrior.")
     }
     
     // It records team names and check if they are single or not
@@ -218,19 +220,34 @@ class GameManager {
         myAttacker.attack(target: opponent)
         return (choiceUser - 1)
     }
-
-    // Method to sub a magician with a warrior when the magician is alone in his team
-    private func substituteMagicianToWarrior() {
-        var myAttacker : Character
-        let warriorSub = Warrior(nameCharacter: "")
+    
+    // Methpd to call attack method in fightConditions method
+    private func callAttackMethod(myAttacker: Character, indexOfPlayingTeam: Int) {
+        // Variable to stock the index of defending team
+        let indexOfTargetTeam: Int
+        // Switch between both columns of arrayTeams to determine the index of attacking team
+        if indexOfPlayingTeam == 0 {
+            indexOfTargetTeam = 1
+        } else {
+            indexOfTargetTeam = 0
+        }
+        //
+        let enemyTeam = arrayTeams[indexOfTargetTeam]
+        // Calls the method to choose a target to attack
+        let indexOfTargetCharacter = chooseTargetToAttack(enemyTeam: arrayTeams[indexOfTargetTeam], myAttacker: myAttacker, arrayIndex: indexOfPlayingTeam)
+        // Calls the method to check if the target is dead
+        _ = enemyTeam.isHeroDead(target: arrayTeams[indexOfTargetTeam].arrayForComposingTeam[indexOfTargetCharacter])
+    }
+    
+    private func mysteryChest() {
+        print("""
+        ------------------
+        MYSTERY CHEST
+        ------------------
+        A chest appears next to the hero. He opens it, and replaces his usual weapon by the new weapon inside...
+        """)
         
         
-        print("ABRACADABRA ! If last hero in the team is a magician, it becomes a warrior.")
-        // récupérer le nom du personnage et l'insérer dans la nouvelle instance de warrior
-        // créer une nouvelle instance de warrior
-        // stocker nom et vie dans deux variable temporaires avant suppression
-        // supprimer du tableau le dernier héros à l'index 0
-        // insérer l'instance de warrior dans le tableau
     }
     
     // Method to record inputs of users and decrease the number of code lines in other methods
