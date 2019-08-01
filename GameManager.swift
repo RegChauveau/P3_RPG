@@ -7,7 +7,7 @@ class GameManager {
     // Variable array stocking characters for both teams
     var arrayForComposingTeam = [Character]()
     // Variable managing switch to avoid or not first part of the program. If true, the user has ton give names to his team and choose characters types and names. If false, the program uses already existing arrays to facilitate tests.
-    var askUserForData = true
+    var askUserForData = false
     
     // It launches the game, manages the composition of teams and the fight and shows the winner
     func gameLauncher() {
@@ -56,7 +56,7 @@ class GameManager {
         let team1 = Team(teamName: firstTeamName)
         let team2 = Team(teamName: secondTeamName)
         // The 6 characters are added to team arrays
-        team1.arrayForComposingTeam.append(Warrior(nameCharacter: "Vizinoob"))
+        team1.arrayForComposingTeam.append(vizinoob)
         team1.arrayForComposingTeam.append(Mage(nameCharacter: "Buharok"))
         team1.arrayForComposingTeam.append(Dwarf(nameCharacter: "Osgoroth"))
         team2.arrayForComposingTeam.append(Colossus(nameCharacter: "Murtonn"))
@@ -162,6 +162,7 @@ class GameManager {
             }
             // Condition if selected attacker is a damager
         } else if (((myAttacker as? Warrior) != nil) || ((myAttacker as? Dwarf) != nil) || ((myAttacker as? Colossus) != nil)) {
+            // Calling attack method
             callAttackMethod(myAttacker: myAttacker, indexOfPlayingTeam: indexOfPlayingTeam)
         }
     }
@@ -173,7 +174,9 @@ class GameManager {
         let subtituteName = myAttacker.nameCharacter
         // Create a new warrior with life and name of the magician
         let warriorSub = Warrior(nameCharacter: subtituteName)
+        // Add magician life to new war life
         warriorSub.life = subtituteLife
+        // Change magician weapon damages to warrior weapon damages
         myAttacker.weapon.damages = 10
         // Adding the new warrior to team
         arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.append(warriorSub)
@@ -221,7 +224,7 @@ class GameManager {
         return (choiceUser - 1)
     }
     
-    // Methpd to call attack method in fightConditions method
+    // Method to call attack method in fightConditions method
     private func callAttackMethod(myAttacker: Character, indexOfPlayingTeam: Int) {
         // Variable to stock the index of defending team
         let indexOfTargetTeam: Int
@@ -260,13 +263,19 @@ class GameManager {
                 // Unwrap it
                 if let intInput = Int(input) {
                     choiceUser = intInput
-                    // If the input is not inside a range between 0 and the number of columns in team array, it displays the print in line 229
-                    if choiceUser < 1 || choiceUser > dynamicSizeOfArray {
+                    // If the input is 0
+                    if choiceUser == 0 {
+                        print("Please enter a number between 1 and \(dynamicSizeOfArray).")
+                        choiceUser = 4
+                    }
+                    // If the input is not inside a range between 1 and the number of columns in team array, it displays the print in line 229
+                    else if choiceUser < 1 || choiceUser > dynamicSizeOfArray {
                         print("Please enter a number between 1 and \(dynamicSizeOfArray).")
                     }
                 } else {
                     // If the input is not an Int
                     print("Please enter a number.")
+                    choiceUser = 4
                 }
             }
             // It loops if the input is superior than the number of columns of team array
