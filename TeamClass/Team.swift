@@ -119,7 +119,7 @@ class Team {
     }
     
     // Method that check if a hero is dead or not, and if it is, we remove it from the array of his team
-    func isHeroDead(target: Character) -> Bool { // au lieu de parcourir tout le tableau pour trouver un combattant mort, plutôt vérifier si le dernier combattant a encore des PV.
+    func isHeroDead(target: Character) -> Bool { 
         // Bool variable to check if the target is dead or not: false when he is alive, go true when he dies
         var isDead: Bool = false
         

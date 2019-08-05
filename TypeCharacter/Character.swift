@@ -38,6 +38,7 @@ class Character {
     
     // Method that permits the randomly substitution of heroes' weapons by another one
     func changeWeapon(character: Character) -> Weapons {
+        // Bonus weapons list
         let newWeaponList = [
             Weapons(damages: -15, weaponName: "Unlucky Mass"),
             Weapons(damages: 50, weaponName: "That's not fair"),
@@ -45,7 +46,7 @@ class Character {
             Weapons(damages: 25, weaponName: "Far better staff"),
             Weapons(damages: 5, weaponName: "So lame")
         ]
-        
+        // Random roll of dices for choosing a new weapon in the array
         let randomValue = newWeaponList[Int.random(in: 0...4)]
         
         return randomValue

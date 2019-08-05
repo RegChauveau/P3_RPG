@@ -7,7 +7,7 @@ class GameManager {
     // Variable array stocking characters for both teams
     var arrayForComposingTeam = [Character]()
     // Variable managing switch to avoid or not first part of the program. If true, the user has ton give names to his team and choose characters types and names. If false, the program uses already existing arrays to facilitate tests.
-    var askUserForData = true
+    var askUserForData = false
     
     // It launches the game, manages the composition of teams and the fight and shows the winner
     func gameLauncher() {
@@ -38,7 +38,6 @@ class GameManager {
         fight()
     }
     
-    //
     private func useStaticDatas() {
         // Variables to create 6 characters
         let vizinoob = Character(nameCharacter: "Vizinoob", life: 30, maxLife: 30, weapon: BiggoronSword(), descriptionClassCharacter: "Warrior")
@@ -144,6 +143,7 @@ class GameManager {
         // Displays the name of the attacker
         myAttacker = arrayTeams[indexOfPlayingTeam].arrayForComposingTeam[choiceUser - 1]
         print("\(myAttacker.nameCharacter) moves forward...")
+        // Call of the method that makes possible the randomly appearance of the bonus weapon
         callMysteryChest(myAttacker: myAttacker)
 
         // Condition if selected attacker is a magician
@@ -218,9 +218,12 @@ class GameManager {
     // Method to select a target to attack
     private func chooseTargetToAttack(enemyTeam: Team, myAttacker: Character, arrayIndex: Int) -> Int {
         print("Player \(arrayIndex+1), choose a hero from the opposing team to attack him : ")
+        // Displays composition of enemy team
         enemyTeam.descriptionTeam()
+        // Asks user to choose a hero in enemy team
         let choiceUser = userChoice(dynamicSizeOfArray: enemyTeam.arrayForComposingTeam.count)
         let opponent: Character = enemyTeam.arrayForComposingTeam[choiceUser - 1]
+        // Calls attack method
         myAttacker.attack(target: opponent)
         return (choiceUser - 1)
     }
@@ -235,7 +238,6 @@ class GameManager {
         } else {
             indexOfTargetTeam = 0
         }
-        //
         let enemyTeam = arrayTeams[indexOfTargetTeam]
         // Calls the method to choose a target to attack
         let indexOfTargetCharacter = chooseTargetToAttack(enemyTeam: arrayTeams[indexOfTargetTeam], myAttacker: myAttacker, arrayIndex: indexOfPlayingTeam)
@@ -243,9 +245,12 @@ class GameManager {
         _ = enemyTeam.isHeroDead(target: arrayTeams[indexOfTargetTeam].arrayForComposingTeam[indexOfTargetCharacter])
     }
     
+    // Calls mysteryChest's method and manages the roll of dices for the random occurrence of the chest
     private func callMysteryChest(myAttacker: Character) {
+        // Variable created for the roll of dices twice a round
         let randomChest = Int.random(in: 0...100)
         print("Roll of the dice: \(randomChest)")
+        // 20% chances for the chest to occurre each time a hero is gonna play
         if randomChest >= 80 {
             mysteryChest(character: myAttacker)
         }
@@ -259,11 +264,14 @@ class GameManager {
         ------------------
         A chest appears next to the hero. He opens it, and switches his usual weapon with the new weapon inside...
         """)
-        
+        // Variable to stock which kind of weapon is gonna appear
         let newWeapon = character.changeWeapon(character: character)
+        // Switch character's usual weapon with new weapon
         character.weapon = newWeapon
+        // Condition if selected hero is a mage
         if ((character as? Mage) != nil) {
             print("\(character.nameCharacter) collects <<\(newWeapon.weaponName)>> and now has capacity to heal \(newWeapon.damages) life points.")
+        // Condition if selected hero is a damager
         } else {
             print("\(character.nameCharacter) collects <<\(newWeapon.weaponName)>> and now causes \(newWeapon.damages) damages.")
         }
