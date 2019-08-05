@@ -2,6 +2,6 @@
 
 class Colossus: Character {
     init(nameCharacter: String) {
-        super.init(nameCharacter: nameCharacter, life: 30, maxLife: 120, weapon: ShieldOfAzzinoth(), descriptionClassCharacter: "Colossus")
+        super.init(nameCharacter: nameCharacter, life: 120, maxLife: 120, weapon: ShieldOfAzzinoth(), descriptionClassCharacter: "Colossus")
     }
 }

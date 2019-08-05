@@ -2,10 +2,10 @@
 
 class Mage: Character {
     init(nameCharacter: String) {
-        super.init(nameCharacter: nameCharacter, life: 30, maxLife: 70, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
+        super.init(nameCharacter: nameCharacter, life: 70, maxLife: 70, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
     }
     
-    // This fmethod checks if the magician is alive or not, if his target is alive or not, then add life points to his target.
+    // This method checks if the magician is alive or not, if his target is alive or not, then add life points to his target.
     func heal(target: Character){
         // Checks if magician is alive
         if life > 0 {
