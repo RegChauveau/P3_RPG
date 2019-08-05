@@ -35,4 +35,19 @@ class Character {
             print("Have you ever seen someone doing something when he is dead ?")
         }
     }
+    
+    // Method that permits the randomly substitution of heroes' weapons by another one
+    func changeWeapon(character: Character) -> Weapons {
+        let newWeaponList = [
+            Weapons(damages: -15, weaponName: "Unlucky Mass"),
+            Weapons(damages: 50, weaponName: "That's not fair"),
+            Weapons(damages: character.weapon.damages, weaponName: "The sword of absolute no change"),
+            Weapons(damages: 25, weaponName: "Far better staff"),
+            Weapons(damages: 5, weaponName: "So lame")
+        ]
+        
+        let randomValue = newWeaponList[Int.random(in: 0...4)]
+        
+        return randomValue
+    }
 }

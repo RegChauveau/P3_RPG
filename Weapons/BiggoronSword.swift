@@ -2,7 +2,7 @@
 
 class BiggoronSword: Weapons {
     init() {
-        super.init(damages: 10)
+        super.init(damages: 10, weaponName: "BiggoronSword")
     }
 }
 

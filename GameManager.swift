@@ -7,7 +7,7 @@ class GameManager {
     // Variable array stocking characters for both teams
     var arrayForComposingTeam = [Character]()
     // Variable managing switch to avoid or not first part of the program. If true, the user has ton give names to his team and choose characters types and names. If false, the program uses already existing arrays to facilitate tests.
-    var askUserForData = false
+    var askUserForData = true
     
     // It launches the game, manages the composition of teams and the fight and shows the winner
     func gameLauncher() {
@@ -53,18 +53,18 @@ class GameManager {
         arrayForTeamName.append(firstTeamName)
         arrayForTeamName.append(secondTeamName)
         // Variables to stock the two new instances of Team
-        let team1 = Team(teamName: firstTeamName)
-        let team2 = Team(teamName: secondTeamName)
+        let firstTeam = Team(teamName: firstTeamName)
+        let secondTeam = Team(teamName: secondTeamName)
         // The 6 characters are added to team arrays
-        team1.arrayForComposingTeam.append(vizinoob)
-        team1.arrayForComposingTeam.append(Mage(nameCharacter: "Buharok"))
-        team1.arrayForComposingTeam.append(Dwarf(nameCharacter: "Osgoroth"))
-        team2.arrayForComposingTeam.append(Colossus(nameCharacter: "Murtonn"))
-        team2.arrayForComposingTeam.append(Dwarf(nameCharacter: "Naïreh"))
-        team2.arrayForComposingTeam.append(Mage(nameCharacter: "Krenshar"))
+        firstTeam.arrayForComposingTeam.append(vizinoob)
+        firstTeam.arrayForComposingTeam.append(buharok)
+        firstTeam.arrayForComposingTeam.append(osgoroth)
+        secondTeam.arrayForComposingTeam.append(murtonn)
+        secondTeam.arrayForComposingTeam.append(krenshar)
+        secondTeam.arrayForComposingTeam.append(naïreh)
         
-        arrayTeams.append(team1)
-        arrayTeams.append(team2)
+        arrayTeams.append(firstTeam)
+        arrayTeams.append(secondTeam)
     }
     
     // Method to create a context
@@ -140,11 +140,12 @@ class GameManager {
         let team = self.arrayTeams[indexOfPlayingTeam]
         // Variable to stock the hero who is gonna play
         var myAttacker: Character
-        
+
         // Displays the name of the attacker
         myAttacker = arrayTeams[indexOfPlayingTeam].arrayForComposingTeam[choiceUser - 1]
         print("\(myAttacker.nameCharacter) moves forward...")
-        
+        callMysteryChest(myAttacker: myAttacker)
+
         // Condition if selected attacker is a magician
         if let magician = myAttacker as? Mage {
             // Checks if the magician is the only survivor of his team
@@ -154,11 +155,11 @@ class GameManager {
                 // Calling attack method
                 callAttackMethod(myAttacker: myAttacker, indexOfPlayingTeam: indexOfPlayingTeam)
             } else {
-            print("Please select the hero you gonna heal (from 1 to 3):")
-            team.descriptionTeam()
-            let inputUser = userChoice(dynamicSizeOfArray: arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.count)
-            // Choosing healer's target
-            magician.heal(target: arrayTeams[indexOfPlayingTeam].arrayForComposingTeam[inputUser - 1])
+                print("Please select the hero you gonna heal (from 1 to 3):")
+                team.descriptionTeam()
+                let inputUser = userChoice(dynamicSizeOfArray: arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.count)
+                // Choosing healer's target
+                magician.heal(target: arrayTeams[indexOfPlayingTeam].arrayForComposingTeam[inputUser - 1])
             }
             // Condition if selected attacker is a damager
         } else if (((myAttacker as? Warrior) != nil) || ((myAttacker as? Dwarf) != nil) || ((myAttacker as? Colossus) != nil)) {
@@ -242,15 +243,30 @@ class GameManager {
         _ = enemyTeam.isHeroDead(target: arrayTeams[indexOfTargetTeam].arrayForComposingTeam[indexOfTargetCharacter])
     }
     
-    private func mysteryChest() {
+    private func callMysteryChest(myAttacker: Character) {
+        let randomChest = Int.random(in: 0...100)
+        print("Roll of the dice: \(randomChest)")
+        if randomChest >= 80 {
+            mysteryChest(character: myAttacker)
+        }
+    }
+    
+    // Method that calls changeWeapon method and permits appearance of a new weapon
+    private func mysteryChest(character: Character) {
         print("""
         ------------------
         MYSTERY CHEST
         ------------------
-        A chest appears next to the hero. He opens it, and replaces his usual weapon by the new weapon inside...
+        A chest appears next to the hero. He opens it, and switches his usual weapon with the new weapon inside...
         """)
         
-        
+        let newWeapon = character.changeWeapon(character: character)
+        character.weapon = newWeapon
+        if ((character as? Mage) != nil) {
+            print("\(character.nameCharacter) collects <<\(newWeapon.weaponName)>> and now has capacity to heal \(newWeapon.damages) life points.")
+        } else {
+            print("\(character.nameCharacter) collects <<\(newWeapon.weaponName)>> and now causes \(newWeapon.damages) damages.")
+        }
     }
     
     // Method to record inputs of users and decrease the number of code lines in other methods
@@ -268,7 +284,7 @@ class GameManager {
                         print("Please enter a number between 1 and \(dynamicSizeOfArray).")
                         choiceUser = 4
                     }
-                    // If the input is not inside a range between 1 and the number of columns in team array, it displays the print in line 229
+                        // If the input is not inside a range between 1 and the number of columns in team array, it displays the print in line 229
                     else if choiceUser < 1 || choiceUser > dynamicSizeOfArray {
                         print("Please enter a number between 1 and \(dynamicSizeOfArray).")
                     }

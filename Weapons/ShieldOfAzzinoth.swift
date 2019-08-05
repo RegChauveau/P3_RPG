@@ -2,6 +2,6 @@
 
 class ShieldOfAzzinoth: Weapons {
     init() {
-        super.init(damages: 5)
+        super.init(damages: 5, weaponName: "ShieldOfAzzinoth")
     }
 }
