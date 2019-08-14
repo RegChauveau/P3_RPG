@@ -1,68 +1,61 @@
-// GameManager groups all the code lines which permit the program to interact with users, and it launches the game.
+// gameManager is the main class of the program, managing the fight process, switching between static and dynamic datas, calling the random weapon.
 class GameManager {
-    // Variable array stocking team names
+    // Array stocking team names
     var arrayForTeamName = [String]()
-    // Variable array stocking both team names and characters for both teams
+    // VArray stocking both team names and characters for both teams
     var arrayTeams = [Team]()
-    // Variable array stocking characters for both teams
+    // Array stocking characters for both teams
     var arrayForComposingTeam = [Character]()
-    // Variable managing switch to avoid or not first part of the program. If true, the user has ton give names to his team and choose characters types and names. If false, the program uses already existing arrays to facilitate tests.
+    // Property managing switch to avoid or not first part of the program. If true, the user has ton give names to his team and choose characters types and names. If false, the program uses already existing arrays to facilitate tests.
     var askUserForData = false
     
     // It launches the game, manages the composition of teams and the fight and shows the winner
     func gameLauncher() {
         print("Welcome to Virtual Fighting of WarcraftLike of the Killing Death.")
         print("")
-        // It launches the context
         introductionToGame()
-        // Condition if == true. Users have to execute the entire program (they have to give teams their names, choose types of heroes and give their names...).
+        // If condition is true : users have to execute the entire program (they have to give teams their names, choose types of heroes and give their names...).
         if askUserForData == true {
             for _ in 1..<3 {
                 // User choose a name for his team
                 let teamName = chooseTeamName()
-                // New instance of Team class to create new team and stock team name
+                // New instance of Team
                 let newTeam = Team(teamName: teamName)
-                // Calls composingTeam() to choose type and name for each of the 3 characters for both team
+                // Choosing type/name for each of the 3 characters for both team
                 newTeam.composingTeam()
                 // Stocks the new instance in an array
                 self.arrayTeams.append(newTeam)
                 print("\(newTeam.teamName) is now complete.")
             }
-            // Condition if == false. The program skips the code between lines 20 to 30, and calls useStaticDatas.
+            // If condition is false : the program uses static datas to save time for tests
         } else {
             useStaticDatas()
         }
         print("Both teams are ready.")
         print("")
-        teamsResumeBeforeFight()
+        teamsResume()
         fight()
     }
     
+    // Method thats permits the program to use static datas to save time during the tests
     private func useStaticDatas() {
-        // Variables to create 6 characters
-        let vizinoob = Character(nameCharacter: "Vizinoob", life: 30, maxLife: 30, weapon: BiggoronSword(), descriptionClassCharacter: "Warrior")
-        let buharok = Character(nameCharacter: "Buharok", life: 30, maxLife: 30, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
-        let osgoroth = Character(nameCharacter: "Osgoroth", life: 30, maxLife: 30, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
-        let murtonn = Character(nameCharacter: "Murtonn", life: 30, maxLife: 30, weapon: ShieldOfAzzinoth(), descriptionClassCharacter: "Colossus")
-        let krenshar = Character(nameCharacter: "Krenshar", life: 30, maxLife: 30, weapon: StaffOfAThousandMoons(), descriptionClassCharacter: "Magician")
-        let naïreh = Character(nameCharacter: "Naïreh", life: 30, maxLife: 30, weapon: SameAxeAsGimli(), descriptionClassCharacter: "Dwarf")
-        // Variables to create 2 teams with name for each
+        // Properties to create 2 teams with name for each
         let firstTeamName = "Maëstrom"
         let secondTeamName = "Nephilïm"
         arrayForTeamName.append(firstTeamName)
         arrayForTeamName.append(secondTeamName)
-        // Variables to stock the two new instances of Team
+        // Properties to stock the instances of Team
         let firstTeam = Team(teamName: firstTeamName)
         let secondTeam = Team(teamName: secondTeamName)
         // The 6 characters are added to team arrays
-        firstTeam.arrayForComposingTeam.append(vizinoob)
-        firstTeam.arrayForComposingTeam.append(buharok)
-        firstTeam.arrayForComposingTeam.append(osgoroth)
-        secondTeam.arrayForComposingTeam.append(murtonn)
-        secondTeam.arrayForComposingTeam.append(krenshar)
-        secondTeam.arrayForComposingTeam.append(naïreh)
+        firstTeam.arrayForComposingTeam.append(Warrior(nameCharacter: "Vizinoob"));
+        firstTeam.arrayForComposingTeam.append(Mage(nameCharacter: "Buharok"));
+        firstTeam.arrayForComposingTeam.append(Dwarf(nameCharacter: "Osgoroth"));
+        secondTeam.arrayForComposingTeam.append(Colossus(nameCharacter: "Murtonn"));
+        secondTeam.arrayForComposingTeam.append(Mage(nameCharacter: "Krenshar"));
+        secondTeam.arrayForComposingTeam.append(Dwarf(nameCharacter: "Naïreh"));
         
-        arrayTeams.append(firstTeam)
+        arrayTeams.append(firstTeam);
         arrayTeams.append(secondTeam)
     }
     
@@ -76,7 +69,7 @@ class GameManager {
     }
     
     // Calls func statisticsTeam before each round of the game to show how many heroes are still in the array (type character, pool of life, weapon damages...)
-    func teamsResumeBeforeFight() {
+    private func teamsResume() {
         for i in 0..<self.arrayTeams.count {
             let team = self.arrayTeams[i]
             // Displays team name choosen by users
@@ -89,7 +82,7 @@ class GameManager {
     
     // It launches the fight and regroups conditions to stop or continue the execution of the program
     private func fight() {
-        // Variable for recording how many turns in the game
+        // Property for recording how many turns the fight lasts
         var round = 0
         
         print("""
@@ -110,7 +103,7 @@ class GameManager {
             
             for i in 0..<arrayTeams.count {
                 
-                // Checks if index1 of arrayTeams is empty. If true, the fight stops; if false, the fight continues
+                // Checks if index1 of arrayTeams is empty. If true the fight stops, if false the fight continues
                 if arrayTeams[1].arrayForComposingTeam.isEmpty {
                     print("Congratulations \(arrayForTeamName[0]), you win the fight in \(round) rounds.")
                     
@@ -120,10 +113,9 @@ class GameManager {
                     let team = self.arrayTeams[i]
                     team.descriptionTeam()
                     
-                    // Call of method fightConditions
                     fightConditions(indexOfPlayingTeam: i)
                     
-                    // Checks if index0 of arrayTeams is empty. If true, the fight stops; if false, the fight continues
+                    // Checks if index0 of arrayTeams is empty. If true the fight stops, if false the fight continues
                     if arrayTeams[0].arrayForComposingTeam.isEmpty {
                         print("Congratulations \(arrayForTeamName[1]), you win the fight in \(round) rounds.")
                     }
@@ -132,54 +124,51 @@ class GameManager {
         }
     }
     
-    // Method to select a fighter and a target. It also manages differences between damagers and healers, and removes characters when they die.
-    func fightConditions(indexOfPlayingTeam: Int) {
-        // Variables for recording the input of user
+    // Method to select a fighter and a target. It also manages differences between actions of damagers and healers
+    private func fightConditions(indexOfPlayingTeam: Int) {
+        // Property for recording the input of user using UserChoice()
         let choiceUser = userChoice(dynamicSizeOfArray: arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.count)
         let team = self.arrayTeams[indexOfPlayingTeam]
-        // Variable to stock the hero who is gonna play
+        // Property to stock the hero who is gonna play
         var myAttacker: Character
-
+        
         // Displays the name of the attacker
         myAttacker = arrayTeams[indexOfPlayingTeam].arrayForComposingTeam[choiceUser - 1]
         print("\(myAttacker.nameCharacter) moves forward...")
-        // Call of the method that makes possible the randomly appearance of the bonus weapon
-        callMysteryChest(myAttacker: myAttacker)
-
-        // Condition if selected attacker is a magician
+        
+        occurrenceOfMysteryChest(myAttacker: myAttacker)
+        
+        // Condition if myAttacker is a magician
         if let magician = myAttacker as? Mage {
             // Checks if the magician is the only survivor of his team
             if arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.count == 1 {
-                // Calling substitution method to change the magician to a warrior
                 substituteMagicianToWarrior(myAttacker: myAttacker, indexOfPlayingTeam: indexOfPlayingTeam)
-                // Calling attack method
-                callAttackMethod(myAttacker: myAttacker, indexOfPlayingTeam: indexOfPlayingTeam)
+                damagersAttacks(myAttacker: myAttacker, indexOfPlayingTeam: indexOfPlayingTeam)
             } else {
                 print("Please select the hero you gonna heal (from 1 to 3):")
                 team.descriptionTeam()
+                // User chooses healer's target
                 let inputUser = userChoice(dynamicSizeOfArray: arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.count)
-                // Choosing healer's target
                 magician.heal(target: arrayTeams[indexOfPlayingTeam].arrayForComposingTeam[inputUser - 1])
             }
-            // Condition if selected attacker is a damager
+            // Condition if myAttacker is a damager
         } else if (((myAttacker as? Warrior) != nil) || ((myAttacker as? Dwarf) != nil) || ((myAttacker as? Colossus) != nil)) {
-            // Calling attack method
-            callAttackMethod(myAttacker: myAttacker, indexOfPlayingTeam: indexOfPlayingTeam)
+            damagersAttacks(myAttacker: myAttacker, indexOfPlayingTeam: indexOfPlayingTeam)
         }
     }
     
     // Method to sub a magician with a warrior when the magician is alone in his team
     private func substituteMagicianToWarrior(myAttacker: Character, indexOfPlayingTeam: Int) {
-        // Temporary variables to stock magician name and life
+        // Temporary propperties to stock magician name and life
         let subtituteLife = myAttacker.life
         let subtituteName = myAttacker.nameCharacter
-        // Create a new warrior with life and name of the magician
+        // Create a new instance of warrior with life and name of the magician
         let warriorSub = Warrior(nameCharacter: subtituteName)
-        // Add magician life to new war life
+        // Add magician life to the new warrior
         warriorSub.life = subtituteLife
         // Change magician weapon damages to warrior weapon damages
         myAttacker.weapon.damages = 10
-        // Adding the new warrior to team
+        // Adding the new warrior to the team
         arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.append(warriorSub)
         // Remove magician from the team
         arrayTeams[indexOfPlayingTeam].arrayForComposingTeam.remove(at: 0)
@@ -187,9 +176,9 @@ class GameManager {
     }
     
     // It records team names and check if they are single or not
-    func chooseTeamName() -> String {
+    private func chooseTeamName() -> String {
         var teamName: String = ""
-        // Bool variable to check if chosen team name is unic or not
+        // Bool property to check if chosen team name is unic or not
         var isNameChosen: Bool = false
         
         print("Please choose a name for your team :")
@@ -203,11 +192,11 @@ class GameManager {
                     // Error message if there is no input
                 } else if teamName == "" {
                     print("Make an effort lazy boy and find a real name to your team, come on !")
-                    // Message if all the process is good
                 } else {
                     isNameChosen = true
                     // Add new team name to array
                     self.arrayForTeamName.append(teamName)
+                    // Message if all the process is good
                     print("\(teamName) is now created !")
                 }
             }
@@ -218,19 +207,17 @@ class GameManager {
     // Method to select a target to attack
     private func chooseTargetToAttack(enemyTeam: Team, myAttacker: Character, arrayIndex: Int) -> Int {
         print("Player \(arrayIndex+1), choose a hero from the opposing team to attack him : ")
-        // Displays composition of enemy team
         enemyTeam.descriptionTeam()
         // Asks user to choose a hero in enemy team
         let choiceUser = userChoice(dynamicSizeOfArray: enemyTeam.arrayForComposingTeam.count)
         let opponent: Character = enemyTeam.arrayForComposingTeam[choiceUser - 1]
-        // Calls attack method
-        myAttacker.attack(target: opponent)
+        myAttacker.attack(target: opponent, character: myAttacker)
         return (choiceUser - 1)
     }
     
     // Method to call attack method in fightConditions method
-    private func callAttackMethod(myAttacker: Character, indexOfPlayingTeam: Int) {
-        // Variable to stock the index of defending team
+    private func damagersAttacks(myAttacker: Character, indexOfPlayingTeam: Int) {
+        // Property to stock the index of defending team
         let indexOfTargetTeam: Int
         // Switch between both columns of arrayTeams to determine the index of attacking team
         if indexOfPlayingTeam == 0 {
@@ -238,25 +225,13 @@ class GameManager {
         } else {
             indexOfTargetTeam = 0
         }
+        // Property to know which is going to be attacked
         let enemyTeam = arrayTeams[indexOfTargetTeam]
-        // Calls the method to choose a target to attack
         let indexOfTargetCharacter = chooseTargetToAttack(enemyTeam: arrayTeams[indexOfTargetTeam], myAttacker: myAttacker, arrayIndex: indexOfPlayingTeam)
-        // Calls the method to check if the target is dead
         _ = enemyTeam.isHeroDead(target: arrayTeams[indexOfTargetTeam].arrayForComposingTeam[indexOfTargetCharacter])
     }
     
-    // Calls mysteryChest's method and manages the roll of dices for the random occurrence of the chest
-    private func callMysteryChest(myAttacker: Character) {
-        // Variable created for the roll of dices twice a round
-        let randomChest = Int.random(in: 0...100)
-        print("Roll of the dice: \(randomChest)")
-        // 20% chances for the chest to occurre each time a hero is gonna play
-        if randomChest >= 80 {
-            mysteryChest(character: myAttacker)
-        }
-    }
-    
-    // Method that calls changeWeapon method and permits appearance of a new weapon
+    // Method that calls changeWeapon method, permits appearance of a new weapon and manages differences between healer and damagers prints
     private func mysteryChest(character: Character) {
         print("""
         ------------------
@@ -264,16 +239,36 @@ class GameManager {
         ------------------
         A chest appears next to the hero. He opens it, and switches his usual weapon with the new weapon inside...
         """)
-        // Variable to stock which kind of weapon is gonna appear
+        // Property to stock which kind of weapon is gonna appear
         let newWeapon = character.changeWeapon(character: character)
         // Switch character's usual weapon with new weapon
         character.weapon = newWeapon
         // Condition if selected hero is a mage
         if ((character as? Mage) != nil) {
-            print("\(character.nameCharacter) collects <<\(newWeapon.weaponName)>> and now has capacity to heal \(newWeapon.damages) life points.")
-        // Condition if selected hero is a damager
+            if newWeapon.weaponName == "Unlucky Mass" {
+                print("\(character.nameCharacter) collects <<\(newWeapon.weaponName)>> and now has capacity to heal 15 life points.")
+                newWeapon.damages = 15
+            } else {
+                print("\(character.nameCharacter) collects <<\(newWeapon.weaponName)>> and now has capacity to heal \(newWeapon.damages) life points.")
+            }
+            // Condition if selected hero is a damager
         } else {
-            print("\(character.nameCharacter) collects <<\(newWeapon.weaponName)>> and now causes \(newWeapon.damages) damages.")
+            if newWeapon.weaponName == "Unlucky Mass" {
+                print("\(character.nameCharacter) collects <<\(newWeapon.weaponName)>> and now gives back 15 life points to his enemy !")
+            } else {
+                print("\(character.nameCharacter) collects <<\(newWeapon.weaponName)>> and now causes \(newWeapon.damages) damages.")
+            }
+        }
+    }
+    
+    // Method that manages the roll of dices for the random occurrence of the chest
+    private func occurrenceOfMysteryChest(myAttacker: Character) {
+        // Property for the roll of dices twice a round
+        let randomChest = Int.random(in: 0...100)
+        print("Roll of the dice: \(randomChest)")
+        // Nearly 33% chances for the chest to occurre each time a hero is gonna play
+        if randomChest >= 66 {
+            mysteryChest(character: myAttacker)
         }
     }
     
@@ -308,4 +303,3 @@ class GameManager {
     }
     
 }
-

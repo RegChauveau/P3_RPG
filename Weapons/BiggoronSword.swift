@@ -1,4 +1,4 @@
-// Warrior's main weapon, class inherits from mother class Weapons
+// Warrior's main weapon, class inherits from master class Weapons
 
 class BiggoronSword: Weapons {
     init() {

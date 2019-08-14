@@ -1,4 +1,4 @@
-// Magician's main weapon, class inherits from mother class Weapons
+// Magician's main weapon, class inherits from master class Weapons
 
 class StaffOfAThousandMoons: Weapons {
     init() {

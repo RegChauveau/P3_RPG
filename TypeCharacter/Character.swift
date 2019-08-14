@@ -1,11 +1,13 @@
-// Character's class defines caracteristics and properties of a hero.
+// Character's class defines caracteristics and properties of a hero, then manages damagers attacks and the random weapon
 
 class Character {
+    // class properties
     let nameCharacter: String
     var life: Int
     // Maximum pool of life even if the hero receive a heal that normally exceed it
     let maxLife: Int
     var weapon: Weapons
+    // Property for type of character used only for prints
     var descriptionClassCharacter: String
     
     init(nameCharacter: String, life: Int, maxLife: Int, weapon: Weapons, descriptionClassCharacter: String) {
@@ -17,24 +19,19 @@ class Character {
     }
     
     // Method checks if the character is alive or not, if the target is alive or not, and reduces target life with weapon damages
-    func attack(target: Character) {
-        // Checks if the attacker is alive or not
-        if life > 0 {
+    func attack(target: Character, character: Character) {
             // Checks if the target is alive or not
             if target.life > 0 {
-                // Reduces target life with weapon damages
+                // Decreases target life with weapon damages
                 target.life -= weapon.damages
                 // Shows to players the consequences of the attack
+                if weapon.weaponName == "Unlucky Mass" {
+                    print("\(target.nameCharacter) gains 15 life points.")
+                } else {
                 print("\(target.nameCharacter) looses \(weapon.damages) life points.")
-            } else {
-                // Error message if the target is already dead
-                print("To hit a dead body is not really fair play. Target someone else !")
+                }
             }
-        } else {
-            // Error message if the attacker is already dead
-            print("Have you ever seen someone doing something when he is dead ?")
         }
-    }
     
     // Method that permits the randomly substitution of heroes' weapons by another one
     func changeWeapon(character: Character) -> Weapons {
