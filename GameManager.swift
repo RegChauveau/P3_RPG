@@ -273,7 +273,7 @@ class GameManager {
     }
     
     // Method to record inputs of users and decrease the number of code lines in other methods
-    private func userChoice(dynamicSizeOfArray: Int) -> Int {
+    func userChoice(dynamicSizeOfArray: Int) -> Int {
         var choiceUser: Int = 0
         
         repeat {

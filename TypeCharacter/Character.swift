@@ -20,18 +20,18 @@ class Character {
     
     // Method checks if the character is alive or not, if the target is alive or not, and reduces target life with weapon damages
     func attack(target: Character, character: Character) {
-            // Checks if the target is alive or not
-            if target.life > 0 {
-                // Decreases target life with weapon damages
-                target.life -= weapon.damages
-                // Shows to players the consequences of the attack
-                if weapon.weaponName == "Unlucky Mass" {
-                    print("\(target.nameCharacter) gains 15 life points.")
-                } else {
+        // Checks if the target is alive or not
+        if target.life > 0 {
+            // Decreases target life with weapon damages
+            target.life -= weapon.damages
+            // Shows to players the consequences of the attack
+            if weapon.weaponName == "Unlucky Mass" {
+                print("\(target.nameCharacter) gains 15 life points.")
+            } else {
                 print("\(target.nameCharacter) looses \(weapon.damages) life points.")
-                }
             }
         }
+    }
     
     // Method that permits the randomly substitution of heroes' weapons by another one
     func changeWeapon(character: Character) -> Weapons {

@@ -103,7 +103,7 @@ class Team {
     }
     
     // Method that checks if a hero is dead or not, and if it is, we remove it from the array of his team
-    func isHeroDead(target: Character) -> Bool { 
+    func isHeroDead(target: Character) -> Bool {
         // Bool property to check if the target is dead or not: false when he is alive, go true when he dies
         var isDead: Bool = false
         
@@ -116,8 +116,10 @@ class Team {
                 print("\(target.nameCharacter) is dead.")
                 // Find the index of the hero in the enemy array
                 let index = arrayForComposingTeam.firstIndex(where: { $0 === target })
-                // Remove dead hero from the enemy array
-                arrayForComposingTeam.remove(at: index!)
+                if let unwrappedIndex = index {
+                    // Remove dead hero from the enemy array
+                    arrayForComposingTeam.remove(at: unwrappedIndex)
+                }
             } else {
                 isDead = false
             }
@@ -140,7 +142,7 @@ class Team {
                 print("Please choose un number between 1 and 4.")
             }
         } while choiceUser != 1 && choiceUser != 2 && choiceUser != 3 && choiceUser != 4
-    return choiceUser
-}
-
+        return choiceUser
+    }
+    
 }
